@@ -43,3 +43,6 @@ next-env.d.ts
 
 # Material crudo (capturas y videos sin procesar)
 /material
+
+# Configuración local de Claude Code
+/.claude
