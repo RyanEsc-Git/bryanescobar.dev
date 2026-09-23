@@ -46,3 +46,9 @@ next-env.d.ts
 
 # Configuración local de Claude Code
 /.claude
+
+# Documentos de trabajo personales
+/docs
+
+# Vercel
+.vercel

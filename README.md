@@ -4,8 +4,8 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
-![Versión](https://img.shields.io/badge/versión-1.0.0-2563EB?style=flat)
-![Licencia](https://img.shields.io/badge/licencia-privada-27272A?style=flat)
+![Versión](https://img.shields.io/badge/versión-1.1.0-2563EB?style=flat)
+![Contenido](https://img.shields.io/badge/contenido-©%20Bryan%20Escobar-27272A?style=flat)
 
 Portafolio web profesional de **Bryan Escobar** — Software Development · Web Applications · Automation.
 
@@ -23,7 +23,8 @@ No es un CV en línea: es una demostración de criterio de producto, capacidad t
 - [El CV](#el-cv)
 - [Sistema de diseño](#sistema-de-diseño)
 - [SEO y accesibilidad](#seo-y-accesibilidad)
-- [Pendientes antes de publicar](#pendientes-antes-de-publicar)
+- [Imágenes del proyecto](#imágenes-del-proyecto)
+- [Uso del código](#uso-del-código)
 - [Despliegue en Vercel](#despliegue-en-vercel)
 - [Troubleshooting](#troubleshooting)
 - [Historial de versiones](#historial-de-versiones)
@@ -137,13 +138,13 @@ Todo el texto del sitio vive en dos lugares. **No hace falta tocar los component
 
 1. Copia `content/projects/sgtt.ts` como `content/projects/mi-proyecto.ts`.
 2. Cambia `slug`, `title`, y el resto de campos. TypeScript avisa si falta alguno.
-3. Pon la portada en `public/projects/mi-proyecto-cover.png` y apunta `cover` a esa ruta.
+3. Pon la portada en `public/projects/cover-mi-proyecto.png` y la captura en `shot-mi-proyecto.png`; apunta `cover` y `screenshot` a esas rutas.
 4. Regístralo en `content/projects/index.ts`:
 
 ```ts
 import { miProyecto } from "./mi-proyecto";
 
-export const projects: Project[] = [sgtt, distribuidoraHuevos, miProyecto].sort(
+export const projects: Project[] = [idInventory, tallerTonyLanding, sgtt, distribuidoraHuevos, miProyecto].sort(
   (a, b) => a.order - b.order,
 );
 ```
@@ -168,7 +169,7 @@ npm run cv
 | `scripts/generate-cv.js` | La maquetación (tipografía, márgenes, colores) |
 | `public/resume/CV-Bryan-Escobar.pdf` | El resultado, enlazado desde el botón "Descargar CV" |
 
-**Para actualizarlo:** edita `scripts/cv-data.js`, ejecuta `npm run cv` y listo. Para agregar el teléfono, cambia `telefono: null` por tu número; déjalo en `null` para omitirlo.
+**Para actualizarlo:** edita `scripts/cv-data.js`, ejecuta `npm run cv` y listo. Poniendo `telefono: null` se omite el teléfono del documento.
 
 Diseño pensado para leerse e imprimirse: una página, fondo blanco, texto seleccionable (lo leen los sistemas ATS de las empresas) y el mismo azul de acento del sitio.
 
@@ -204,21 +205,30 @@ Utilidades propias: `container-page`, `label-mono`, `surface-card`, `hero-glow`,
 
 ---
 
-## Pendientes antes de publicar
+## Imágenes del proyecto
 
-Estos archivos son **temporales** y deben reemplazarse por material real:
+Cada proyecto usa dos imágenes, ambas en `public/projects/`:
 
-| Archivo | Reemplazar por |
+| Archivo | Dónde aparece |
 |---|---|
-| `public/projects/sgtt-cover.png` | Captura real del sistema del taller |
-| `public/projects/distribuidora-cover.png` | Captura real del sistema de la distribuidora |
-| `public/bryan.png` | Fotografía profesional (vertical, 4:5) |
+| `cover-<proyecto>.png` | Portada de marca en la tarjeta (listado y Home) |
+| `shot-<proyecto>.png` | Captura real del producto, dentro del caso de estudio |
 
-Además, revisar en `config/site.ts`:
+Se referencian desde los campos `cover` y `screenshot` del archivo de contenido. Si un proyecto no tiene `screenshot`, el caso de estudio usa su portada.
 
-- [ ] La URL de LinkedIn apunta a tu perfil real.
-- [ ] La URL de GitHub es correcta.
-- [ ] Si algún proyecto tiene demo o repositorio público, agregarlo en `links` dentro de su archivo de contenido.
+> **Al reemplazar una imagen, cámbiale el nombre.** Si mantienes el mismo nombre, los navegadores siguen mostrando la versión anterior desde su caché. Renombrar el archivo (`cover-sgtt.png` → `cover-sgtt-v2.png`) fuerza la descarga de la nueva.
+
+El material sin procesar —capturas originales, videos, fotos— vive en `material/`, que está fuera del control de versiones.
+
+---
+
+## Uso del código
+
+Este repositorio es público para que se pueda revisar cómo está construido el portafolio.
+
+El **código** está disponible como referencia: úsalo para aprender, inspirarte o resolver un problema parecido.
+
+El **contenido** no: textos, casos de estudio, imágenes, fotografías, el CV y la identidad visual son personales y no están licenciados para su reutilización. Si te sirve la estructura, quédate con ella y pon lo tuyo dentro.
 
 ---
 
@@ -278,6 +288,7 @@ El generador (Satori) exige que cada `div` con más de un hijo tenga `display: f
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.1.0 | Septiembre 2026 | Cuatro casos de estudio (ID Inventory, Taller Tony, SGTT, Distribuidora Escobar), portadas de marca + capturas reales, Instagram, CV generado desde código y repositorio público |
 | 1.0.0 | Agosto 2026 | V1 Portfolio Core: Home, About, Projects, Case Studies, Experience, Contact, SEO, Open Graph, accesibilidad y build estático |
 
 ---
