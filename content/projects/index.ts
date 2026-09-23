@@ -1,8 +1,9 @@
 import type { Project } from "@/types";
+import { idInventory } from "./id-inventory";
 import { sgtt } from "./sgtt";
 import { distribuidoraHuevos } from "./distribuidora-huevos";
 
-export const projects: Project[] = [sgtt, distribuidoraHuevos].sort(
+export const projects: Project[] = [idInventory, sgtt, distribuidoraHuevos].sort(
   (a, b) => a.order - b.order,
 );
 

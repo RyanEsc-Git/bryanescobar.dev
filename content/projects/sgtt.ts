@@ -13,7 +13,7 @@ export const sgtt: Project = {
   coverAlt:
     "Captura del panel principal del sistema de gestión de taller mostrando órdenes de trabajo e inventario",
   featured: true,
-  order: 1,
+  order: 3,
   status: "En producción",
   links: {},
   metrics: [

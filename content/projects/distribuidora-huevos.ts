@@ -13,7 +13,7 @@ export const distribuidoraHuevos: Project = {
   coverAlt:
     "Captura de la pantalla de ventas del sistema de distribuidora mostrando productos, clientes y saldos",
   featured: true,
-  order: 2,
+  order: 4,
   status: "En producción",
   links: {},
   metrics: [
