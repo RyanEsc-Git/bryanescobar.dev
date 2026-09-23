@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Github, Linkedin } from "@/components/ui/icons";
+import { Github, Instagram, Linkedin } from "@/components/ui/icons";
 import { navLinks, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
@@ -91,6 +91,17 @@ export function Navbar() {
           >
             <Linkedin className="size-4" aria-hidden />
           </a>
+          {siteConfig.links.instagram ? (
+            <a
+              href={siteConfig.links.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="rounded-md p-2 text-muted transition-colors hover:text-fg"
+            >
+              <Instagram className="size-4" aria-hidden />
+            </a>
+          ) : null}
           <a
             href={siteConfig.links.resume}
             target="_blank"
@@ -162,6 +173,17 @@ export function Navbar() {
             >
               <Linkedin className="size-4" aria-hidden />
             </a>
+            {siteConfig.links.instagram ? (
+              <a
+                href={siteConfig.links.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="rounded-lg border border-border p-2.5 text-muted"
+              >
+                <Instagram className="size-4" aria-hidden />
+              </a>
+            ) : null}
           </div>
         </div>
       ) : null}

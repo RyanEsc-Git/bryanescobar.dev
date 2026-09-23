@@ -56,7 +56,11 @@ export function personJsonLd() {
       addressCountry: "SV",
       addressLocality: siteConfig.location,
     },
-    sameAs: [siteConfig.links.github, siteConfig.links.linkedin],
+    sameAs: [
+      siteConfig.links.github,
+      siteConfig.links.linkedin,
+      siteConfig.links.instagram,
+    ].filter(Boolean),
     knowsAbout: [
       "Software Development",
       "Web Applications",

@@ -17,6 +17,9 @@ export const siteConfig = {
   links: {
     github: "https://github.com/RyanEsc-Git",
     linkedin: "https://www.linkedin.com/in/bryan-escobar-6a275b179/",
+    // Poner la URL completa del perfil para que aparezca en el sitio.
+    // Mientras esté vacío, el enlace de Instagram simplemente no se muestra.
+    instagram: "" as string,
     resume: "/resume/CV-Bryan-Escobar.pdf",
   },
   keywords: [

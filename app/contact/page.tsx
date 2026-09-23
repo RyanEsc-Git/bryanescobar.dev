@@ -1,5 +1,5 @@
 import { Mail, MapPin } from "lucide-react";
-import { Github, Linkedin } from "@/components/ui/icons";
+import { Github, Instagram, Linkedin } from "@/components/ui/icons";
 import { PageHeader } from "@/components/ui/page-header";
 import { Section } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
@@ -33,6 +33,16 @@ const channels = [
     value: "Mi código",
     href: siteConfig.links.github,
   },
+  ...(siteConfig.links.instagram
+    ? [
+        {
+          icon: Instagram,
+          label: "Instagram",
+          value: "Sígueme",
+          href: siteConfig.links.instagram,
+        },
+      ]
+    : []),
 ];
 
 export default function ContactPage() {

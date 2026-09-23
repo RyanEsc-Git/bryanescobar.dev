@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
-import { Github, Linkedin } from "@/components/ui/icons";
+import { Github, Instagram, Linkedin } from "@/components/ui/icons";
 import { navLinks, siteConfig } from "@/config/site";
 
 export function Footer() {
@@ -74,6 +74,19 @@ export function Footer() {
                     LinkedIn
                   </a>
                 </li>
+                {siteConfig.links.instagram ? (
+                  <li>
+                    <a
+                      href={siteConfig.links.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
+                    >
+                      <Instagram className="size-4" aria-hidden />
+                      Instagram
+                    </a>
+                  </li>
+                ) : null}
               </ul>
             </div>
           </div>

@@ -39,8 +39,9 @@ export default function AboutPage() {
                 src="/bryan.png"
                 alt="Fotografía profesional de Bryan Escobar"
                 fill
-                sizes="(min-width: 1024px) 35vw, 100vw"
-                className="object-cover"
+                priority
+                sizes="(min-width: 1024px) 35vw, (min-width: 640px) 60vw, 100vw"
+                className="object-cover object-top"
               />
             </div>
           </Reveal>
