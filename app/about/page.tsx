@@ -36,7 +36,7 @@ export default function AboutPage() {
           <Reveal delay={120}>
             <div className="surface-card relative aspect-[4/5] overflow-hidden">
               <Image
-                src="/bryan.png"
+                src="/bryan-escobar.png"
                 alt="Fotografía profesional de Bryan Escobar"
                 fill
                 priority

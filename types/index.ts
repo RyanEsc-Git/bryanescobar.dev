@@ -17,8 +17,12 @@ export type Project = {
   role: string;
   client: string;
   stack: string[];
+  /** Portada de marca que se muestra en las tarjetas de proyecto. */
   cover: string;
   coverAlt: string;
+  /** Captura real del producto, dentro del caso de estudio. */
+  screenshot?: string;
+  screenshotAlt?: string;
   featured: boolean;
   order: number;
   status: "En producción" | "En desarrollo" | "Finalizado";

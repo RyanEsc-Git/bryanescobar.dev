@@ -9,7 +9,10 @@ export const sgtt: Project = {
   role: "Diseño, desarrollo y despliegue (proyecto individual)",
   client: "Taller Tony",
   stack: ["React", "Node.js", "Express", "SQLite", "JWT", "nginx", "PM2"],
-  cover: "/projects/sgtt-cover.png",
+  cover: "/projects/cover-sgtt.png",
+  screenshot: "/projects/shot-sgtt.png",
+  screenshotAlt:
+    "Panel principal de SGTT con órdenes activas, ingresos e inventario",
   coverAlt:
     "Captura del panel principal del sistema de gestión de taller mostrando órdenes de trabajo e inventario",
   featured: true,

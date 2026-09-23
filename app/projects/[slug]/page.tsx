@@ -133,10 +133,10 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
       <div className="container-page">
         <Reveal className="-mt-0 pt-14">
-          <div className="surface-card relative aspect-[16/9] overflow-hidden">
+          <div className="surface-card relative aspect-[16/10] overflow-hidden">
             <Image
-              src={project.cover}
-              alt={project.coverAlt}
+              src={project.screenshot ?? project.cover}
+              alt={project.screenshotAlt ?? project.coverAlt}
               fill
               priority
               sizes="(min-width: 1024px) 72rem, 100vw"

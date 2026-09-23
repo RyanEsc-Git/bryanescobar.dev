@@ -9,7 +9,10 @@ export const tallerTonyLanding: Project = {
   role: "Diseño y desarrollo frontend (proyecto individual)",
   client: "Taller Tony · La Unión, El Salvador",
   stack: ["Astro", "TypeScript", "CSS", "Canvas API", "WebP"],
-  cover: "/projects/taller-tony-landing-cover.png",
+  cover: "/projects/cover-taller-tony.png",
+  screenshot: "/projects/shot-taller-tony.png",
+  screenshotAlt:
+    "Captura del hero de la landing de Taller Tony a pantalla completa",
   coverAlt:
     "Portada de la landing page de Taller Tony con el hero a pantalla completa y el nombre del taller sobre una fila de vehículos",
   featured: true,

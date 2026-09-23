@@ -9,7 +9,10 @@ export const distribuidoraHuevos: Project = {
   role: "Análisis, desarrollo y despliegue (proyecto individual)",
   client: "Distribuidora de Huevos Escobar",
   stack: ["JavaScript", "Node.js", "Express", "SQLite", "JWT"],
-  cover: "/projects/distribuidora-cover.png",
+  cover: "/projects/cover-distribuidora.png",
+  screenshot: "/projects/shot-distribuidora.png",
+  screenshotAlt:
+    "Tablero del sistema de la distribuidora con ventas, cobros y metas del día",
   coverAlt:
     "Captura de la pantalla de ventas del sistema de distribuidora mostrando productos, clientes y saldos",
   featured: true,

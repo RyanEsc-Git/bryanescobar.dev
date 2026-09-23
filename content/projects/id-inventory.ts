@@ -9,7 +9,7 @@ export const idInventory: Project = {
   role: "Análisis, arquitectura y desarrollo (proyecto individual)",
   client: "ID Arquitectos",
   stack: ["JavaScript", "Supabase", "PostgreSQL", "PWA", "esbuild", "jsPDF"],
-  cover: "/projects/id-inventory-cover.png",
+  cover: "/projects/cover-id-inventory.png",
   coverAlt:
     "Portada del sistema ID Inventory: control de compras, recepciones y despachos para bodegas",
   featured: true,
