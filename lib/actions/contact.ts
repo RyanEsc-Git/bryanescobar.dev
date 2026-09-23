@@ -58,9 +58,12 @@ export async function sendContactMessage(
   }
 
   const { name, email, subject, message } = parsed.data;
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_EMAIL_TO ?? siteConfig.email;
-  const from = process.env.CONTACT_EMAIL_FROM ?? "Portafolio <onboarding@resend.dev>";
+  // Se usa || en lugar de ?? a propósito: una variable definida pero vacía
+  // (habitual al importar el proyecto en Vercel) debe caer al valor por defecto.
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const to = process.env.CONTACT_EMAIL_TO?.trim() || siteConfig.email;
+  const from =
+    process.env.CONTACT_EMAIL_FROM?.trim() || "Portafolio <onboarding@resend.dev>";
 
   if (!apiKey) {
     return {
