@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { GraduationCap } from "lucide-react";
+import { PixelAvatar } from "@/components/pixel/pixel-avatar";
 import { PageHeader } from "@/components/ui/page-header";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
@@ -35,6 +36,12 @@ export default function AboutPage() {
 
           <Reveal delay={120}>
             <div className="surface-card relative aspect-[4/5] overflow-hidden">
+              <PixelAvatar
+                scale={4}
+                floating
+                className="absolute bottom-4 right-4 z-10 drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                title="Bryan Escobar en 8 bits"
+              />
               <Image
                 src="/bryan-escobar.png"
                 alt="Fotografía profesional de Bryan Escobar"

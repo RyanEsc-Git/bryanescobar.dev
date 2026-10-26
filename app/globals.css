@@ -123,6 +123,31 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Sprite 8-bit
+------------------------------------------------------------------ */
+@layer components {
+  .pixel-float {
+    animation: pixel-float 3.2s ease-in-out infinite;
+  }
+
+  @keyframes pixel-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-float {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

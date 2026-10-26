@@ -1,5 +1,6 @@
 import { ArrowRight, ArrowUpRight, FileText } from "lucide-react";
 import { Github, Linkedin } from "@/components/ui/icons";
+import { PixelAvatar } from "@/components/pixel/pixel-avatar";
 import { ButtonLink } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 import { capabilities, siteConfig } from "@/config/site";
@@ -101,7 +102,12 @@ export function Hero() {
             </Reveal>
           </div>
 
-          <Reveal delay={200} className="hidden lg:block">
+          <Reveal delay={200} className="relative hidden lg:block">
+            <PixelAvatar
+              scale={6}
+              floating
+              className="absolute -top-20 right-6 z-10 drop-shadow-[0_12px_24px_rgba(0,0,0,0.55)]"
+            />
             <div className="surface-card overflow-hidden shadow-2xl shadow-black/40">
               <div className="flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-3">
                 <span className="size-2.5 rounded-full bg-[#ff5f57]" />

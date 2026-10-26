@@ -4,7 +4,7 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
-![Versión](https://img.shields.io/badge/versión-1.1.0-2563EB?style=flat)
+![Versión](https://img.shields.io/badge/versión-1.2.0-2563EB?style=flat)
 ![Contenido](https://img.shields.io/badge/contenido-©%20Bryan%20Escobar-27272A?style=flat)
 
 Portafolio web profesional de **Bryan Escobar** — Software Development · Web Applications · Automation.
@@ -288,6 +288,7 @@ El generador (Satori) exige que cada `div` con más de un hijo tenga `display: f
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.2.0 | Octubre 2026 | Avatar 8-bit propio en hero, About y 404, con mini-juego en la página de error |
 | 1.1.0 | Septiembre 2026 | Cuatro casos de estudio (ID Inventory, Taller Tony, SGTT, Distribuidora Escobar), portadas de marca + capturas reales, Instagram, CV generado desde código y repositorio público |
 | 1.0.0 | Agosto 2026 | V1 Portfolio Core: Home, About, Projects, Case Studies, Experience, Contact, SEO, Open Graph, accesibilidad y build estático |
 
