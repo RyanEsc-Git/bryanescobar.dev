@@ -3,6 +3,27 @@
  * Editar aquí cambia el contenido en todo el portafolio.
  */
 
+/**
+ * URL pública del sitio, de la que salen el canonical, el sitemap y las
+ * tarjetas sociales. Se resuelve sola según dónde corra:
+ *
+ *   1. NEXT_PUBLIC_SITE_URL  — para forzar un valor concreto.
+ *   2. VERCEL_PROJECT_PRODUCTION_URL — la define Vercel. Al conectar un
+ *      dominio propio pasa a ser ese dominio, sin tocar este archivo.
+ *   3. localhost — en desarrollo.
+ *
+ * Solo se usa en el servidor (metadata, sitemap, robots y JSON-LD).
+ */
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
+
+  return "http://localhost:3000";
+}
+
 export const siteConfig = {
   name: "Bryan Escobar",
   shortName: "BE",
@@ -10,7 +31,7 @@ export const siteConfig = {
   title: "Bryan Escobar — Software Development & Web Applications",
   description:
     "Desarrollo software y soluciones digitales orientadas a resolver problemas reales, automatizar procesos y mejorar la forma en que operan las organizaciones.",
-  url: "https://bryanescobar.dev",
+  url: resolveSiteUrl(),
   locale: "es_SV",
   location: "El Salvador",
   email: "bryan79escobar@gmail.com",
