@@ -102,6 +102,28 @@ export const workProcess = [
 export const experience: ExperienceEntry[] = [
   {
     period: "2026",
+    title: "ID Inventory — Control de inventario para obra",
+    context: "Cliente del sector construcción · El Salvador",
+    description:
+      "Auditoría técnica y desarrollo de operación sin conexión sobre un sistema de inventario en producción, usado por bodegueros en obras con cobertura intermitente.",
+    responsibilities: [
+      "Auditoría de la base de datos y del modelo de seguridad: 27 tablas con RLS, 40 políticas y 31 funciones",
+      "Operación sin conexión: cola en IndexedDB con reintentos escalonados e idempotencia garantizada",
+      "Sincronización automática al recuperar señal, con emisión y archivo de comprobantes",
+      "Detección y corrección de seis defectos preexistentes, verificados en producción",
+      "Entrega documentada: manuales de usuario, administración y técnico",
+    ],
+    stack: [
+      "PWA",
+      "Supabase",
+      "PostgreSQL",
+      "IndexedDB",
+      "Service Worker",
+      "Vercel",
+    ],
+  },
+  {
+    period: "2026",
     title: "SGTT — Sistema de Gestión para Taller",
     context: "Proyecto propio · Taller Tony",
     description:
