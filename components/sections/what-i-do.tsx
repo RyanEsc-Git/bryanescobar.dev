@@ -1,7 +1,7 @@
 import { Boxes, Code2, Cpu, Workflow } from "lucide-react";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
-import { whatIDo } from "@/content/profile";
+import { whatIDo } from "@/content/es/profile";
 
 const icons = [Code2, Boxes, Workflow, Cpu];
 

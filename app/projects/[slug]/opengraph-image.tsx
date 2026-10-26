@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getProjectBySlug, projects } from "@/content/projects";
+import { getProjectBySlug, projects } from "@/content/es/projects";
 import { siteConfig } from "@/config/site";
 
 export const alt = "Case Study";

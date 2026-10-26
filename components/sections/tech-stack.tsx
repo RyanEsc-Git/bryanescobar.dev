@@ -1,6 +1,6 @@
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
-import { techStack } from "@/content/profile";
+import { techStack } from "@/content/es/profile";
 
 export function TechStack() {
   return (

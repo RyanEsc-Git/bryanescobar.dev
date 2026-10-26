@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { CallToAction } from "@/components/sections/cta";
-import { aboutContent, education } from "@/content/profile";
+import { aboutContent, education } from "@/content/es/profile";
 import { buildMetadata } from "@/lib/metadata";
 
 export const metadata = buildMetadata({

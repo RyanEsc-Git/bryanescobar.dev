@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { ProjectShowcase } from "@/components/projects/project-card";
-import { featuredProjects } from "@/content/projects";
+import { featuredProjects } from "@/content/es/projects";
 
 export function SelectedWork() {
   return (

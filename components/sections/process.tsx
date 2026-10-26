@@ -1,6 +1,6 @@
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
-import { workProcess } from "@/content/profile";
+import { workProcess } from "@/content/es/profile";
 
 export function Process() {
   return (

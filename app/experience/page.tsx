@@ -4,7 +4,7 @@ import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { CallToAction } from "@/components/sections/cta";
-import { education, experience } from "@/content/profile";
+import { education, experience } from "@/content/es/profile";
 import { siteConfig } from "@/config/site";
 import { buildMetadata } from "@/lib/metadata";
 

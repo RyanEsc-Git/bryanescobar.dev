@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Section } from "@/components/ui/section";
 import { ProjectCard } from "@/components/projects/project-card";
 import { CallToAction } from "@/components/sections/cta";
-import { projects } from "@/content/projects";
+import { projects } from "@/content/es/projects";
 import { buildMetadata } from "@/lib/metadata";
 
 export const metadata = buildMetadata({

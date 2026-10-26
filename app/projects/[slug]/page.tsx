@@ -15,7 +15,7 @@ import {
   getAdjacentProject,
   getProjectBySlug,
   projects,
-} from "@/content/projects";
+} from "@/content/es/projects";
 import { buildMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/config/site";
 

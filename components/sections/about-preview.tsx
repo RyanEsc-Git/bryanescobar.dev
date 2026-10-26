@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
-import { aboutContent, aboutPreview } from "@/content/profile";
+import { aboutContent, aboutPreview } from "@/content/es/profile";
 
 export function AboutPreview() {
   return (

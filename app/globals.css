@@ -131,6 +131,26 @@
     animation: pixel-float 3.2s ease-in-out infinite;
   }
 
+  /* Nubes del paisaje: dos capas que cruzan a ritmos distintos.
+     Cada grupo lleva su contenido duplicado, así que al desplazarse 200
+     unidades (el ancho del arte) el bucle encaja sin salto visible. */
+  .fuji-clouds--slow {
+    animation: fuji-drift 150s linear infinite;
+  }
+
+  .fuji-clouds--fast {
+    animation: fuji-drift 90s linear infinite;
+  }
+
+  @keyframes fuji-drift {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-200px);
+    }
+  }
+
   @keyframes pixel-float {
     0%,
     100% {
@@ -143,7 +163,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pixel-float {
+  .pixel-float,
+  .fuji-clouds {
     animation: none;
   }
 }
