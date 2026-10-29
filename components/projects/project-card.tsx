@@ -2,17 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Project } from "@/types";
+import { localePath, type Locale } from "@/lib/i18n";
+import type { UIDictionary } from "@/content/es/ui";
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/ui/reveal";
 
-type ProjectShowcaseProps = {
+type CardProps = {
   project: Project;
-  index: number;
+  locale: Locale;
+  ui: UIDictionary;
 };
 
 /** Bloque grande alternado usado en la Home. */
-export function ProjectShowcase({ project, index }: ProjectShowcaseProps) {
+export function ProjectShowcase({
+  project,
+  locale,
+  ui,
+  index,
+}: CardProps & { index: number }) {
   const reversed = index % 2 === 1;
+  const href = localePath(`/projects/${project.slug}`, locale);
 
   return (
     <Reveal>
@@ -54,16 +63,16 @@ export function ProjectShowcase({ project, index }: ProjectShowcaseProps) {
           </dl>
 
           <Link
-            href={`/projects/${project.slug}`}
+            href={href}
             className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-accent-light transition-colors hover:text-fg"
           >
-            Ver caso de estudio
+            {ui.projects.viewCaseStudy}
             <ArrowRight className="size-4" aria-hidden />
           </Link>
         </div>
 
         <Link
-          href={`/projects/${project.slug}`}
+          href={href}
           className="group surface-card relative block aspect-[16/10] overflow-hidden"
           tabIndex={-1}
           aria-hidden
@@ -82,11 +91,11 @@ export function ProjectShowcase({ project, index }: ProjectShowcaseProps) {
 }
 
 /** Tarjeta compacta usada en /projects. */
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project, locale, ui }: CardProps) {
   return (
     <Reveal>
       <article className="surface-card group h-full overflow-hidden transition-colors hover:border-border-strong">
-        <Link href={`/projects/${project.slug}`} className="block">
+        <Link href={localePath(`/projects/${project.slug}`, locale)} className="block">
           <div className="relative aspect-[16/10] overflow-hidden border-b border-border">
             <Image
               src={project.cover}
@@ -100,7 +109,7 @@ export function ProjectCard({ project }: { project: Project }) {
             <div className="flex items-center justify-between gap-4">
               <span className="label-mono">{project.year}</span>
               <span className="rounded-full border border-border px-2.5 py-1 font-mono text-[11px] text-muted">
-                {project.status}
+                {ui.projectStatus[project.status]}
               </span>
             </div>
             <h3 className="mt-4 text-xl font-semibold tracking-tight">
@@ -120,8 +129,11 @@ export function ProjectCard({ project }: { project: Project }) {
               ))}
             </ul>
             <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent-light">
-              Ver caso de estudio
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+              {ui.projects.viewCaseStudy}
+              <ArrowRight
+                className="size-4 transition-transform group-hover:translate-x-0.5"
+                aria-hidden
+              />
             </span>
           </div>
         </Link>

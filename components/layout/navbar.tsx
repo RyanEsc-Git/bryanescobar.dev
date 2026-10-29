@@ -5,13 +5,30 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Github, Instagram, Linkedin } from "@/components/ui/icons";
-import { navLinks, siteConfig } from "@/config/site";
+import { LanguageSwitcher } from "./language-switcher";
+import { resumeHref, siteConfig } from "@/config/site";
+import { localePath, stripLocale, type Locale } from "@/lib/i18n";
+import type { UIDictionary } from "@/content/es/ui";
 import { cn } from "@/lib/utils";
 
-export function Navbar() {
+export function Navbar({
+  locale,
+  ui,
+}: {
+  locale: Locale;
+  ui: UIDictionary;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const links = [
+    { href: "/", label: ui.nav.home },
+    { href: "/about", label: ui.nav.about },
+    { href: "/projects", label: ui.nav.projects },
+    { href: "/experience", label: ui.nav.experience },
+    { href: "/contact", label: ui.nav.contact },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -28,8 +45,9 @@ export function Navbar() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  const current = stripLocale(pathname);
   const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+    href === "/" ? current === "/" : current.startsWith(href);
 
   return (
     <header
@@ -41,29 +59,27 @@ export function Navbar() {
       )}
     >
       <nav
-        aria-label="Navegación principal"
+        aria-label={ui.nav.mainNav}
         className="container-page flex h-16 items-center justify-between"
       >
         <Link
-          href="/"
+          href={localePath("/", locale)}
           className="font-mono text-sm font-semibold tracking-widest text-fg"
-          aria-label={`${siteConfig.name} — inicio`}
+          aria-label={`${siteConfig.name} — ${ui.nav.home_aria}`}
         >
           {siteConfig.shortName}
           <span className="text-accent-light">.</span>
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => (
+          {links.map((link) => (
             <li key={link.href}>
               <Link
-                href={link.href}
+                href={localePath(link.href, locale)}
                 aria-current={isActive(link.href) ? "page" : undefined}
                 className={cn(
                   "rounded-md px-3 py-2 text-sm transition-colors",
-                  isActive(link.href)
-                    ? "text-fg"
-                    : "text-muted hover:text-fg",
+                  isActive(link.href) ? "text-fg" : "text-muted hover:text-fg",
                 )}
               >
                 {link.label}
@@ -102,38 +118,49 @@ export function Navbar() {
               <Instagram className="size-4" aria-hidden />
             </a>
           ) : null}
+
+          <LanguageSwitcher
+            locale={locale}
+            label={ui.language.switchTo}
+            className="ml-2"
+          />
+
           <a
-            href={siteConfig.links.resume}
+            href={resumeHref(locale)}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium transition-colors hover:border-border-strong hover:bg-surface-2"
+            className="rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium transition-colors hover:border-border-strong hover:bg-surface-2"
           >
-            Descargar CV
+            {ui.nav.resume}
           </a>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((value) => !value)}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
-          className="rounded-md p-2 text-muted transition-colors hover:text-fg md:hidden"
-        >
-          {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <LanguageSwitcher locale={locale} label={ui.language.switchTo} />
+          <button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? ui.nav.closeMenu : ui.nav.openMenu}
+            className="rounded-md p-2 text-muted transition-colors hover:text-fg"
+          >
+            {open ? (
+              <X className="size-5" aria-hidden />
+            ) : (
+              <Menu className="size-5" aria-hidden />
+            )}
+          </button>
+        </div>
       </nav>
 
       {open ? (
-        <div
-          id="mobile-menu"
-          className="border-t border-border bg-bg md:hidden"
-        >
+        <div id="mobile-menu" className="border-t border-border bg-bg md:hidden">
           <ul className="container-page flex flex-col py-2">
-            {navLinks.map((link) => (
+            {links.map((link) => (
               <li key={link.href}>
                 <Link
-                  href={link.href}
+                  href={localePath(link.href, locale)}
                   onClick={() => setOpen(false)}
                   aria-current={isActive(link.href) ? "page" : undefined}
                   className={cn(
@@ -148,12 +175,12 @@ export function Navbar() {
           </ul>
           <div className="container-page flex items-center gap-3 py-4">
             <a
-              href={siteConfig.links.resume}
+              href={resumeHref(locale)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 rounded-lg border border-border bg-surface px-4 py-2.5 text-center text-sm font-medium"
             >
-              Descargar CV
+              {ui.nav.resume}
             </a>
             <a
               href={siteConfig.links.github}

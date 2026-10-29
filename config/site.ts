@@ -42,6 +42,7 @@ export const siteConfig = {
     // Mientras esté vacío, el enlace de Instagram simplemente no se muestra.
     instagram: "https://www.instagram.com/bryan.esc_" as string,
     resume: "/resume/CV-Bryan-Escobar.pdf",
+    resumeEn: "/resume/CV-Bryan-Escobar-EN.pdf",
   },
   keywords: [
     "Bryan Escobar",
@@ -55,6 +56,13 @@ export const siteConfig = {
     "ingeniería en sistemas",
   ],
 } as const;
+
+/** CV en el idioma que se esté viendo. */
+export function resumeHref(locale: string): string {
+  return locale === "en"
+    ? siteConfig.links.resumeEn
+    : siteConfig.links.resume;
+}
 
 export const navLinks = [
   { href: "/", label: "Inicio" },

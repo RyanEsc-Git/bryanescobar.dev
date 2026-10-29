@@ -17,7 +17,7 @@ export const sgtt: Project = {
     "Captura del panel principal del sistema de gestión de taller mostrando órdenes de trabajo e inventario",
   featured: true,
   order: 3,
-  status: "En producción",
+  status: "production",
   links: {},
   metrics: [
     { label: "Estado", value: "En producción" },

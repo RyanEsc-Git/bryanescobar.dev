@@ -77,6 +77,12 @@ export const ui = {
       "Casos de estudio de sistemas y aplicaciones web construidos para negocios reales: problema, arquitectura, decisiones técnicas y resultados.",
   },
 
+  projectStatus: {
+    production: "En producción",
+    development: "En desarrollo",
+    finished: "Finalizado",
+  },
+
   caseStudy: {
     label: "Case Study",
     backToProjects: "Todos los proyectos",
@@ -172,6 +178,23 @@ export const ui = {
       submit: "Enviar mensaje",
       sending: "Enviando...",
       honeypot: "No llenar este campo",
+      validation: {
+        name: "Escribe tu nombre (mínimo 2 caracteres).",
+        nameLong: "El nombre es demasiado largo.",
+        email: "Escribe un correo electrónico válido.",
+        subject: "Escribe un asunto breve.",
+        subjectLong: "El asunto es demasiado largo.",
+        message: "Cuéntame un poco más: al menos 20 caracteres.",
+        messageLong: "El mensaje es demasiado largo.",
+        review: "Revisa los campos marcados.",
+      },
+      status: {
+        notConfigured:
+          "El envío por formulario aún no está configurado. Escríbeme directamente a {email}.",
+        failed: "No se pudo enviar el mensaje. Puedes escribirme a {email}.",
+        network: "Ocurrió un error de red. Puedes escribirme a {email}.",
+        success: "Mensaje enviado. Te respondo lo antes posible.",
+      },
     },
     metaTitle: "Contacto",
     metaDescription:
@@ -213,6 +236,6 @@ export const ui = {
     label: "Idioma",
     switchTo: "Ver en inglés",
   },
-} as const;
+};
 
 export type UIDictionary = typeof ui;

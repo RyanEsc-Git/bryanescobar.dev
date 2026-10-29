@@ -25,7 +25,7 @@ export type Project = {
   screenshotAlt?: string;
   featured: boolean;
   order: number;
-  status: "En producción" | "En desarrollo" | "Finalizado";
+  status: "production" | "development" | "finished";
   links?: {
     live?: string;
     github?: string;

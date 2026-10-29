@@ -5,22 +5,35 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { CallToAction } from "@/components/sections/cta";
-import { aboutContent, education } from "@/content/es/profile";
+import { getUI } from "@/content";
 import { buildMetadata } from "@/lib/metadata";
+import {
+  resolveLocale,
+  resolvePage,
+  type LocaleParams,
+} from "@/lib/page-params";
 
-export const metadata = buildMetadata({
-  title: "Sobre mí",
-  description:
-    "Estudiante de Ingeniería en Sistemas y desarrollador de software en El Salvador. Construyo aplicaciones web y sistemas que digitalizan la operación de negocios reales.",
-  path: "/about",
-});
+export async function generateMetadata({ params }: LocaleParams) {
+  const locale = await resolveLocale(params);
+  const ui = getUI(locale);
 
-export default function AboutPage() {
+  return buildMetadata({
+    title: ui.about.metaTitle,
+    description: ui.about.metaDescription,
+    path: "/about",
+    locale,
+  });
+}
+
+export default async function AboutPage({ params }: LocaleParams) {
+  const { locale, ui, profile } = await resolvePage(params);
+  const { aboutContent, education } = profile;
+
   return (
     <>
       <PageHeader
-        eyebrow="Sobre mí"
-        title="Construyo sistemas que alguien usa todos los días"
+        eyebrow={ui.about.eyebrow}
+        title={ui.about.title}
         description={aboutContent.lead}
       />
 
@@ -40,11 +53,11 @@ export default function AboutPage() {
                 scale={4}
                 floating
                 className="absolute bottom-4 right-4 z-10 drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
-                title="Bryan Escobar en 8 bits"
+                title={ui.about.avatarAlt}
               />
               <Image
                 src="/bryan-escobar.png"
-                alt="Fotografía profesional de Bryan Escobar"
+                alt={ui.about.photoAlt}
                 fill
                 priority
                 sizes="(min-width: 1024px) 35vw, (min-width: 640px) 60vw, 100vw"
@@ -57,9 +70,9 @@ export default function AboutPage() {
 
       <Section className="border-y border-border bg-surface/30">
         <SectionHeader
-          eyebrow="Principios"
-          title="Cómo decido"
-          description="Cuatro reglas que aplico en cada proyecto, desde la primera reunión hasta el despliegue."
+          eyebrow={ui.about.principles.eyebrow}
+          title={ui.about.principles.title}
+          description={ui.about.principles.description}
         />
         <div className="grid gap-5 sm:grid-cols-2">
           {aboutContent.principles.map((principle, index) => (
@@ -79,8 +92,8 @@ export default function AboutPage() {
 
       <Section>
         <SectionHeader
-          eyebrow="Educación"
-          title="Formación académica"
+          eyebrow={ui.about.education.eyebrow}
+          title={ui.about.education.title}
         />
         <ul className="flex flex-col gap-5">
           {education.map((item, index) => (
@@ -107,7 +120,7 @@ export default function AboutPage() {
         </ul>
       </Section>
 
-      <CallToAction />
+      <CallToAction locale={locale} ui={ui} />
     </>
   );
 }

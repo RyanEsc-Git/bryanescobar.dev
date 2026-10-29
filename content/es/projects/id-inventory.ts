@@ -21,7 +21,7 @@ export const idInventory: Project = {
     "Portada del proyecto ID Inventory: operación sin conexión para control de inventario en obra",
   featured: true,
   order: 1,
-  status: "En producción",
+  status: "production",
   links: {},
   metrics: [
     { label: "Auditoría", value: "27 tablas · 40 políticas" },

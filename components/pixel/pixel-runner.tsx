@@ -16,6 +16,9 @@ import {
   SPRITE_RUN_B,
   SPRITE_WIDTH,
 } from "./sprite-data";
+import type { UIDictionary } from "@/content/es/ui";
+
+type GameLabels = UIDictionary["notFound"]["game"];
 
 /**
  * Mini-juego de la página 404: el avatar corre y salta obstáculos.
@@ -86,7 +89,7 @@ function subscribeRecord(listener: () => void) {
 
 /* ---------------------------------------------------------------- juego */
 
-export function PixelRunner() {
+export function PixelRunner({ labels }: { labels: GameLabels }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const scoreRef = useRef<HTMLSpanElement>(null);
   const [phase, setPhase] = useState<Phase>("ready");
@@ -235,7 +238,7 @@ export function PixelRunner() {
     <div className="mx-auto w-full max-w-2xl">
       <div className="surface-card overflow-hidden">
         <div className="flex items-center justify-between border-b border-border bg-surface-2 px-4 py-2.5">
-          <span className="label-mono">404 Runner</span>
+          <span className="label-mono">{labels.title}</span>
           <span className="font-mono text-xs text-muted">
             <span ref={scoreRef}>00000</span>
             {record > 0 ? (
@@ -250,9 +253,7 @@ export function PixelRunner() {
           type="button"
           onClick={jump}
           aria-label={
-            phase === "playing"
-              ? "Saltar"
-              : "Empezar el juego: salta los obstáculos"
+            phase === "playing" ? labels.jump : labels.startAria
           }
           className="relative block w-full cursor-pointer bg-bg"
         >
@@ -266,11 +267,12 @@ export function PixelRunner() {
           {phase !== "playing" ? (
             <span className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1 bg-bg/70 text-center">
               <span className="font-mono text-sm text-fg">
-                {phase === "ready" ? "¿Jugamos?" : `Fin · ${finalScore} puntos`}
+                {phase === "ready"
+                  ? labels.start
+                  : `${labels.gameOver} · ${finalScore} ${labels.points}`}
               </span>
               <span className="font-mono text-xs text-muted">
-                Espacio o clic para{" "}
-                {phase === "ready" ? "empezar" : "reintentar"}
+                {phase === "ready" ? labels.pressToStart : labels.pressToRetry}
               </span>
             </span>
           ) : null}
@@ -278,7 +280,7 @@ export function PixelRunner() {
       </div>
 
       <p className="mt-3 text-center text-xs text-subtle">
-        Hecho con el mismo sprite del avatar, dibujado píxel a píxel en canvas.
+        {labels.caption}
       </p>
     </div>
   );

@@ -17,7 +17,7 @@ export const distribuidoraHuevos: Project = {
     "Captura de la pantalla de ventas del sistema de distribuidora mostrando productos, clientes y saldos",
   featured: true,
   order: 4,
-  status: "En producción",
+  status: "production",
   links: {},
   metrics: [
     { label: "Operación", value: "Diaria" },

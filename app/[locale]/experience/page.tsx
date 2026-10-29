@@ -4,28 +4,41 @@ import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { CallToAction } from "@/components/sections/cta";
-import { education, experience } from "@/content/es/profile";
-import { siteConfig } from "@/config/site";
+import { getUI } from "@/content";
+import { resumeHref } from "@/config/site";
 import { buildMetadata } from "@/lib/metadata";
+import {
+  resolveLocale,
+  resolvePage,
+  type LocaleParams,
+} from "@/lib/page-params";
 
-export const metadata = buildMetadata({
-  title: "Experiencia",
-  description:
-    "Trayectoria profesional de Bryan Escobar: proyectos de desarrollo de software, sistemas de gestión y automatización para negocios reales.",
-  path: "/experience",
-});
+export async function generateMetadata({ params }: LocaleParams) {
+  const locale = await resolveLocale(params);
+  const ui = getUI(locale);
 
-export default function ExperiencePage() {
+  return buildMetadata({
+    title: ui.experience.metaTitle,
+    description: ui.experience.metaDescription,
+    path: "/experience",
+    locale,
+  });
+}
+
+export default async function ExperiencePage({ params }: LocaleParams) {
+  const { locale, ui, profile } = await resolvePage(params);
+  const { education, experience } = profile;
+
   return (
     <>
       <PageHeader
-        eyebrow="Experiencia"
-        title="Trayectoria y proyectos"
-        description="Un recorrido por lo que he construido, con el contexto, las responsabilidades y las tecnologías de cada etapa."
+        eyebrow={ui.experience.eyebrow}
+        title={ui.experience.title}
+        description={ui.experience.description}
       >
         <div className="mt-9">
-          <ButtonLink href={siteConfig.links.resume} variant="secondary" external>
-            Descargar CV
+          <ButtonLink href={resumeHref(locale)} variant="secondary" external>
+            {ui.nav.resume}
           </ButtonLink>
         </div>
       </PageHeader>
@@ -77,7 +90,10 @@ export default function ExperiencePage() {
       </Section>
 
       <Section className="border-t border-border bg-surface/30">
-        <SectionHeader eyebrow="Educación" title="Formación y certificaciones" />
+        <SectionHeader
+          eyebrow={ui.experience.education.eyebrow}
+          title={ui.experience.education.title}
+        />
         <ul className="flex flex-col gap-5">
           {education.map((item, index) => (
             <Reveal key={item.institution} delay={index * 70} as="li">
@@ -103,7 +119,7 @@ export default function ExperiencePage() {
         </ul>
       </Section>
 
-      <CallToAction />
+      <CallToAction locale={locale} ui={ui} />
     </>
   );
 }

@@ -1,11 +1,24 @@
 import { ImageResponse } from "next/og";
 import { siteConfig } from "@/config/site";
+import { getProfile } from "@/content";
+import { LOCALES } from "@/lib/i18n";
+import { resolveLocale, type LocaleParams } from "@/lib/page-params";
 
 export const alt = `${siteConfig.name} — Software Development`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}
+
+/** El dominio se saca de la URL real del sitio, no de una constante a mano. */
+const siteHost = siteConfig.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+
+export default async function OpenGraphImage({ params }: LocaleParams) {
+  const locale = await resolveLocale(params);
+  const { heroContent } = getProfile(locale);
+
   return new ImageResponse(
     (
       <div
@@ -44,7 +57,7 @@ export default function OpenGraphImage() {
               maxWidth: 900,
             }}
           >
-            Desarrollo software para resolver problemas reales.
+            {heroContent.headline}
           </div>
         </div>
 
@@ -61,7 +74,7 @@ export default function OpenGraphImage() {
           <div style={{ color: "#A1A1AA" }}>
             Software · Web Apps · Automation
           </div>
-          <div style={{ color: "#3B82F6" }}>bryanescobar.dev</div>
+          <div style={{ color: "#3B82F6" }}>{siteHost}</div>
         </div>
       </div>
     ),

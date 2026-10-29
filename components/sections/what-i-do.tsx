@@ -1,21 +1,29 @@
 import { Boxes, Code2, Cpu, Workflow } from "lucide-react";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
-import { whatIDo } from "@/content/es/profile";
+import type { UIDictionary } from "@/content/es/ui";
 
 const icons = [Code2, Boxes, Workflow, Cpu];
 
-export function WhatIDo() {
+type Item = { title: string; description: string };
+
+export function WhatIDo({
+  ui,
+  items,
+}: {
+  ui: UIDictionary;
+  items: readonly Item[];
+}) {
   return (
     <Section id="servicios">
       <SectionHeader
-        eyebrow="What I Do"
-        title="Cuatro formas de resolver el mismo tipo de problema"
-        description="Todo lo que construyo apunta a lo mismo: convertir un proceso manual, disperso o propenso a errores en un sistema que se pueda medir y mantener."
+        eyebrow={ui.home.whatIDo.eyebrow}
+        title={ui.home.whatIDo.title}
+        description={ui.home.whatIDo.description}
       />
 
       <div className="grid gap-5 sm:grid-cols-2">
-        {whatIDo.map((item, index) => {
+        {items.map((item, index) => {
           const Icon = icons[index % icons.length];
           return (
             <Reveal key={item.title} delay={index * 70}>

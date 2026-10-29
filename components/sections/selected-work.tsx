@@ -2,26 +2,42 @@ import { ArrowRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { ProjectShowcase } from "@/components/projects/project-card";
-import { featuredProjects } from "@/content/es/projects";
+import { localePath, type Locale } from "@/lib/i18n";
+import type { UIDictionary } from "@/content/es/ui";
+import type { Project } from "@/types";
 
-export function SelectedWork() {
+export function SelectedWork({
+  locale,
+  ui,
+  projects,
+}: {
+  locale: Locale;
+  ui: UIDictionary;
+  projects: Project[];
+}) {
   return (
     <Section id="trabajo">
       <SectionHeader
-        eyebrow="Selected Work"
-        title="Proyectos que resuelven algo real"
-        description="Cada uno nació de un proceso manual que costaba tiempo o dinero. Entra al caso de estudio para ver el problema, la arquitectura y las decisiones detrás."
+        eyebrow={ui.home.selectedWork.eyebrow}
+        title={ui.home.selectedWork.title}
+        description={ui.home.selectedWork.description}
         action={
-          <ButtonLink href="/projects" variant="secondary">
-            Todos los proyectos
+          <ButtonLink href={localePath("/projects", locale)} variant="secondary">
+            {ui.home.selectedWork.allProjects}
             <ArrowRight className="size-4" aria-hidden />
           </ButtonLink>
         }
       />
 
       <div className="flex flex-col gap-20 sm:gap-28">
-        {featuredProjects.map((project, index) => (
-          <ProjectShowcase key={project.slug} project={project} index={index} />
+        {projects.map((project, index) => (
+          <ProjectShowcase
+            key={project.slug}
+            project={project}
+            locale={locale}
+            ui={ui}
+            index={index}
+          />
         ))}
       </div>
     </Section>

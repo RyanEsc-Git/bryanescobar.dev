@@ -1,18 +1,26 @@
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
-import { techStack } from "@/content/es/profile";
+import type { UIDictionary } from "@/content/es/ui";
 
-export function TechStack() {
+type Group = { category: string; items: readonly string[] };
+
+export function TechStack({
+  ui,
+  groups,
+}: {
+  ui: UIDictionary;
+  groups: readonly Group[];
+}) {
   return (
     <Section id="stack" className="border-y border-border bg-surface/30">
       <SectionHeader
-        eyebrow="Tech Stack"
-        title="Herramientas que uso y puedo explicar"
-        description="No es una lista de todo lo que existe: son las tecnologías con las que he construido y desplegado sistemas en uso real."
+        eyebrow={ui.home.stack.eyebrow}
+        title={ui.home.stack.title}
+        description={ui.home.stack.description}
       />
 
       <div className="grid gap-px overflow-hidden rounded-card border border-border bg-border sm:grid-cols-2">
-        {techStack.map((group, index) => (
+        {groups.map((group, index) => (
           <Reveal key={group.category} delay={index * 60}>
             <div className="h-full bg-bg p-7">
               <p className="label-mono">{group.category}</p>

@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import {
+  DEFAULT_LOCALE,
+  LOCALE_META,
+  localePath,
+  type Locale,
+} from "@/lib/i18n";
 
 type PageMetaInput = {
   title: string;
   description: string;
+  /** Ruta sin idioma: "/about", "/projects/mi-proyecto". */
   path: string;
+  locale: Locale;
   image?: string;
   type?: "website" | "article";
 };
@@ -13,25 +21,36 @@ export function buildMetadata({
   title,
   description,
   path,
+  locale,
   image,
   type = "website",
 }: PageMetaInput): Metadata {
-  const url = `${siteConfig.url}${path}`;
+  const localized = localePath(path, locale);
+  const url = `${siteConfig.url}${localized}`;
 
   // Las imágenes Open Graph se generan con los archivos opengraph-image.tsx
   // de cada segmento; solo se declaran aquí si se pasa una explícita.
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: localized,
+      languages: {
+        es: localePath(path, "es"),
+        en: localePath(path, "en"),
+        "x-default": localePath(path, DEFAULT_LOCALE),
+      },
+    },
     openGraph: {
       type,
       url,
       title,
       description,
       siteName: siteConfig.name,
-      locale: siteConfig.locale,
-      ...(image ? { images: [{ url: image, width: 1200, height: 630, alt: title }] } : {}),
+      locale: LOCALE_META[locale].ogLocale,
+      ...(image
+        ? { images: [{ url: image, width: 1200, height: 630, alt: title }] }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
@@ -77,7 +96,7 @@ export function websiteJsonLd() {
     "@type": "WebSite",
     name: siteConfig.name,
     url: siteConfig.url,
-    inLanguage: "es",
+    inLanguage: ["es", "en"],
     author: { "@type": "Person", name: siteConfig.name },
   };
 }

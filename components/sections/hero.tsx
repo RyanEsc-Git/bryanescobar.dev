@@ -4,8 +4,9 @@ import { PixelAvatar } from "@/components/pixel/pixel-avatar";
 import { PixelFuji } from "@/components/pixel/pixel-fuji";
 import { ButtonLink } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
-import { capabilities, siteConfig } from "@/config/site";
-import { heroContent } from "@/content/es/profile";
+import { capabilities, resumeHref, siteConfig } from "@/config/site";
+import { localePath, type Locale } from "@/lib/i18n";
+import type { UIDictionary } from "@/content/es/ui";
 
 const codeLines = [
   [
@@ -45,7 +46,22 @@ const codeLines = [
   [{ t: "};", c: "text-muted" }],
 ];
 
-export function Hero() {
+type HeroContent = {
+  eyebrow: string;
+  name: string;
+  headline: string;
+  intro: string;
+};
+
+export function Hero({
+  locale,
+  ui,
+  hero,
+}: {
+  locale: Locale;
+  ui: UIDictionary;
+  hero: HeroContent;
+}) {
   return (
     <section className="relative">
       {/* El paisaje se ancla a este bloque y no a toda la sección: con
@@ -74,33 +90,36 @@ export function Hero() {
                     <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex size-1.5 rounded-full bg-emerald-400" />
                   </span>
-                  {heroContent.eyebrow}
+                  {hero.eyebrow}
                 </p>
               </Reveal>
 
               <Reveal delay={80}>
                 <h1 className="mt-7 text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-                  {heroContent.name}
+                  {hero.name}
                   <span className="mt-3 block text-2xl font-normal leading-snug text-muted sm:text-3xl lg:text-4xl">
-                    {heroContent.headline}
+                    {hero.headline}
                   </span>
                 </h1>
               </Reveal>
 
               <Reveal delay={160}>
                 <p className="mt-7 max-w-xl text-base leading-relaxed text-muted">
-                  {heroContent.intro}
+                  {hero.intro}
                 </p>
               </Reveal>
 
               <Reveal delay={240}>
                 <div className="mt-9 flex flex-wrap items-center gap-3">
-                  <ButtonLink href="/projects">
-                    Ver mis proyectos
+                  <ButtonLink href={localePath("/projects", locale)}>
+                    {ui.hero.viewProjects}
                     <ArrowRight className="size-4" aria-hidden />
                   </ButtonLink>
-                  <ButtonLink href="/contact" variant="secondary">
-                    Contactarme
+                  <ButtonLink
+                    href={localePath("/contact", locale)}
+                    variant="secondary"
+                  >
+                    {ui.hero.contactMe}
                   </ButtonLink>
                 </div>
               </Reveal>
@@ -128,13 +147,13 @@ export function Hero() {
                     <ArrowUpRight className="size-3.5" aria-hidden />
                   </a>
                   <a
-                    href={siteConfig.links.resume}
+                    href={resumeHref(locale)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
                   >
                     <FileText className="size-4" aria-hidden />
-                    CV
+                    {ui.hero.resume}
                     <ArrowUpRight className="size-3.5" aria-hidden />
                   </a>
                 </div>
@@ -146,6 +165,7 @@ export function Hero() {
                 scale={6}
                 floating
                 className="absolute -top-20 right-6 z-10 drop-shadow-[0_12px_24px_rgba(0,0,0,0.55)]"
+                title={ui.about.avatarAlt}
               />
               <div className="surface-card overflow-hidden shadow-2xl shadow-black/40">
                 <div className="flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-3">

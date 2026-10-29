@@ -13,27 +13,33 @@ import { ButtonLink } from "@/components/ui/button";
 import { CallToAction } from "@/components/sections/cta";
 import {
   getAdjacentProject,
+  getAllSlugs,
   getProjectBySlug,
-  projects,
-} from "@/content/es/projects";
+  getUI,
+} from "@/content";
+import { LOCALES, localePath } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/metadata";
+import { resolveLocale, resolvePage, type SlugParams } from "@/lib/page-params";
 import { siteConfig } from "@/config/site";
 
-type PageProps = { params: Promise<{ slug: string }> };
-
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return LOCALES.flatMap((locale) =>
+    getAllSlugs().map((slug) => ({ locale, slug })),
+  );
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: SlugParams) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const locale = await resolveLocale(params);
+  const ui = getUI(locale);
+  const project = getProjectBySlug(locale, slug);
 
   if (!project) {
     return buildMetadata({
-      title: "Proyecto no encontrado",
-      description: "El caso de estudio solicitado no existe.",
+      title: ui.caseStudy.notFound.title,
+      description: ui.caseStudy.notFound.description,
       path: `/projects/${slug}`,
+      locale,
     });
   }
 
@@ -41,24 +47,28 @@ export async function generateMetadata({ params }: PageProps) {
     title: project.title,
     description: project.summary,
     path: `/projects/${project.slug}`,
+    locale,
     type: "article",
   });
 }
 
-export default async function CaseStudyPage({ params }: PageProps) {
+export default async function CaseStudyPage({ params }: SlugParams) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const { locale, ui } = await resolvePage(params);
+  const project = getProjectBySlug(locale, slug);
 
   if (!project) notFound();
 
-  const next = getAdjacentProject(project.slug);
+  const next = getAdjacentProject(locale, project.slug);
+  const sections = ui.caseStudy.sections;
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.title,
     description: project.summary,
-    url: `${siteConfig.url}/projects/${project.slug}`,
+    url: `${siteConfig.url}${localePath(`/projects/${project.slug}`, locale)}`,
+    inLanguage: locale,
     dateCreated: String(project.year),
     author: { "@type": "Person", name: siteConfig.name },
     keywords: project.stack.join(", "),
@@ -71,17 +81,17 @@ export default async function CaseStudyPage({ params }: PageProps) {
         <div className="container-page relative py-16 sm:py-24">
           <Reveal>
             <Link
-              href="/projects"
+              href={localePath("/projects", locale)}
               className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
             >
               <ArrowLeft className="size-4" aria-hidden />
-              Todos los proyectos
+              {ui.caseStudy.backToProjects}
             </Link>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <span className="label-mono">Case Study</span>
+              <span className="label-mono">{ui.caseStudy.label}</span>
               <span className="rounded-full border border-border px-2.5 py-1 font-mono text-[11px] text-muted">
-                {project.status}
+                {ui.projectStatus[project.status]}
               </span>
             </div>
 
@@ -96,14 +106,14 @@ export default async function CaseStudyPage({ params }: PageProps) {
               <div className="mt-9 flex flex-wrap gap-3">
                 {project.links.live ? (
                   <ButtonLink href={project.links.live} external>
-                    Ver en vivo
+                    {ui.caseStudy.liveDemo}
                     <ExternalLink className="size-4" aria-hidden />
                   </ButtonLink>
                 ) : null}
                 {project.links.github ? (
                   <ButtonLink href={project.links.github} variant="secondary" external>
                     <Github className="size-4" aria-hidden />
-                    Código
+                    {ui.caseStudy.sourceCode}
                   </ButtonLink>
                 ) : null}
               </div>
@@ -111,19 +121,19 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
             <dl className="mt-12 grid gap-px overflow-hidden rounded-card border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
               <div className="bg-bg p-5">
-                <dt className="label-mono">Cliente</dt>
+                <dt className="label-mono">{ui.caseStudy.client}</dt>
                 <dd className="mt-2 text-sm">{project.client}</dd>
               </div>
               <div className="bg-bg p-5">
-                <dt className="label-mono">Año</dt>
+                <dt className="label-mono">{ui.caseStudy.year}</dt>
                 <dd className="mt-2 text-sm">{project.year}</dd>
               </div>
               <div className="bg-bg p-5">
-                <dt className="label-mono">Rol</dt>
+                <dt className="label-mono">{ui.caseStudy.role}</dt>
                 <dd className="mt-2 text-sm">{project.role}</dd>
               </div>
               <div className="bg-bg p-5">
-                <dt className="label-mono">Stack</dt>
+                <dt className="label-mono">{ui.caseStudy.stack}</dt>
                 <dd className="mt-2 text-sm">{project.stack.join(" · ")}</dd>
               </div>
             </dl>
@@ -146,15 +156,15 @@ export default async function CaseStudyPage({ params }: PageProps) {
         </Reveal>
 
         <div className="divide-y divide-border">
-          <CaseBlock eyebrow="01" title="Overview">
+          <CaseBlock eyebrow="01" title={sections.overview}>
             <Prose paragraphs={project.overview} />
           </CaseBlock>
 
-          <CaseBlock eyebrow="02" title="El problema">
+          <CaseBlock eyebrow="02" title={sections.problem}>
             <Prose paragraphs={project.problem} />
           </CaseBlock>
 
-          <CaseBlock eyebrow="03" title="El reto">
+          <CaseBlock eyebrow="03" title={sections.challenge}>
             <ul className="flex flex-col gap-4">
               {project.challenge.map((item) => (
                 <li
@@ -168,24 +178,24 @@ export default async function CaseStudyPage({ params }: PageProps) {
             </ul>
           </CaseBlock>
 
-          <CaseBlock eyebrow="04" title="La solución">
+          <CaseBlock eyebrow="04" title={sections.solution}>
             <Prose paragraphs={project.solution} />
           </CaseBlock>
 
-          <CaseBlock eyebrow="05" title="Arquitectura">
+          <CaseBlock eyebrow="05" title={sections.architecture}>
             <ArchitectureDiagram layers={project.architecture} />
           </CaseBlock>
 
-          <CaseBlock eyebrow="06" title="Tecnologías">
+          <CaseBlock eyebrow="06" title={sections.technologies}>
             <div className="overflow-x-auto rounded-card border border-border">
               <table className="w-full min-w-[30rem] border-collapse text-left text-sm">
                 <thead>
                   <tr className="bg-surface-2">
                     <th scope="col" className="px-5 py-3 font-medium text-fg">
-                      Tecnología
+                      {ui.caseStudy.table.technology}
                     </th>
                     <th scope="col" className="px-5 py-3 font-medium text-fg">
-                      Función
+                      {ui.caseStudy.table.role}
                     </th>
                   </tr>
                 </thead>
@@ -208,7 +218,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
             </div>
           </CaseBlock>
 
-          <CaseBlock eyebrow="07" title="Funcionalidades">
+          <CaseBlock eyebrow="07" title={sections.features}>
             <div className="grid gap-5 sm:grid-cols-2">
               {project.features.map((feature) => (
                 <article
@@ -226,7 +236,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
             </div>
           </CaseBlock>
 
-          <CaseBlock eyebrow="08" title="Proceso de desarrollo">
+          <CaseBlock eyebrow="08" title={sections.process}>
             <ol className="flex flex-col gap-4">
               {project.process.map((step, index) => (
                 <li key={step.slice(0, 30)} className="flex gap-4">
@@ -239,7 +249,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
             </ol>
           </CaseBlock>
 
-          <CaseBlock eyebrow="09" title="Decisiones y trade-offs">
+          <CaseBlock eyebrow="09" title={sections.decisions}>
             <div className="flex flex-col gap-5">
               {project.decisions.map((decision) => (
                 <article key={decision.title} className="surface-card p-6">
@@ -254,7 +264,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
             </div>
           </CaseBlock>
 
-          <CaseBlock eyebrow="10" title="Resultados">
+          <CaseBlock eyebrow="10" title={sections.results}>
             <ul className="flex flex-col gap-4">
               {project.results.map((result) => (
                 <li
@@ -268,16 +278,16 @@ export default async function CaseStudyPage({ params }: PageProps) {
             </ul>
           </CaseBlock>
 
-          <CaseBlock eyebrow="11" title="Qué aprendí">
+          <CaseBlock eyebrow="11" title={sections.learned}>
             <Prose paragraphs={project.learned} />
           </CaseBlock>
         </div>
 
         {next ? (
           <Reveal className="border-t border-border py-14">
-            <p className="label-mono">Siguiente proyecto</p>
+            <p className="label-mono">{ui.caseStudy.nextProject}</p>
             <Link
-              href={`/projects/${next.slug}`}
+              href={localePath(`/projects/${next.slug}`, locale)}
               className="group mt-4 flex flex-wrap items-center justify-between gap-4"
             >
               <span className="text-2xl font-semibold tracking-tight sm:text-3xl">
@@ -292,7 +302,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
         ) : null}
       </div>
 
-      <CallToAction />
+      <CallToAction locale={locale} ui={ui} />
 
       <script
         type="application/ld+json"

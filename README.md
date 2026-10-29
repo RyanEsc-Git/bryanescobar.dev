@@ -4,12 +4,15 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
-![Versión](https://img.shields.io/badge/versión-1.3.0-2563EB?style=flat)
+![Versión](https://img.shields.io/badge/versión-1.4.0-2563EB?style=flat)
+![Idiomas](https://img.shields.io/badge/idiomas-ES%20·%20EN-2563EB?style=flat)
 ![Contenido](https://img.shields.io/badge/contenido-©%20Bryan%20Escobar-27272A?style=flat)
 
 Portafolio web profesional de **Bryan Escobar** — Software Development · Web Applications · Automation.
 
 No es un CV en línea: es una demostración de criterio de producto, capacidad técnica y resolución de problemas, con casos de estudio que explican el problema, la arquitectura y las decisiones detrás de cada sistema.
+
+El sitio está **completo en español e inglés**, con rutas propias por idioma (`/es`, `/en`), hreflang y CV en los dos idiomas.
 
 ---
 
@@ -20,6 +23,7 @@ No es un CV en línea: es una demostración de criterio de producto, capacidad t
 - [Instalación local](#instalación-local)
 - [Variables de entorno](#variables-de-entorno)
 - [Cómo editar el contenido](#cómo-editar-el-contenido)
+- [Idiomas](#idiomas)
 - [El CV](#el-cv)
 - [Sistema de diseño](#sistema-de-diseño)
 - [SEO y accesibilidad](#seo-y-accesibilidad)
@@ -59,31 +63,42 @@ No es un CV en línea: es una demostración de criterio de producto, capacidad t
 bryanescobar.dev/
 │
 ├── app/
-│   ├── page.tsx                    Home
-│   ├── layout.tsx                  Layout global, metadata y JSON-LD
+│   ├── [locale]/                   Todo el sitio, una vez por idioma
+│   │   ├── layout.tsx              Layout raíz, metadata, hreflang y JSON-LD
+│   │   ├── page.tsx                Home
+│   │   ├── not-found.tsx           404 interna (un slug que no existe)
+│   │   ├── opengraph-image.tsx     Card social generada
+│   │   ├── about/ · experience/ · contact/
+│   │   └── projects/
+│   │       ├── page.tsx            Listado
+│   │       └── [slug]/             Case Study + su Open Graph
+│   ├── global-not-found.tsx        404 de las rutas que no existen
 │   ├── globals.css                 Design tokens y utilidades
-│   ├── not-found.tsx               404 personalizada
-│   ├── opengraph-image.tsx         Card social generada
-│   ├── sitemap.ts / robots.ts      SEO técnico
-│   ├── about/ · experience/ · contact/
-│   └── projects/
-│       ├── page.tsx                Listado
-│       └── [slug]/                 Case Study + su Open Graph
+│   └── sitemap.ts / robots.ts      SEO técnico
+│
+├── proxy.ts                        Manda /about a /es/about (antes middleware)
 │
 ├── components/
-│   ├── layout/                     Navbar y Footer
+│   ├── layout/                     Navbar, Footer y selector de idioma
 │   ├── sections/                   Secciones de la Home
+│   ├── pixel/                      Avatar 8-bit, monte Fuji y 404 Runner
 │   ├── projects/                   Tarjetas y bloques de Case Study
-│   └── ui/                         Botones, secciones, reveal, iconos
+│   └── ui/                         Botones, reveal, iconos y banderas
 │
 ├── content/
-│   ├── profile.ts                  Hero, About, stack, proceso, experiencia
-│   └── projects/                   Un archivo por caso de estudio
+│   ├── index.ts                    Entrada única: getUI(locale), getProjects(locale)...
+│   └── es/ · en/
+│       ├── ui.ts                   Textos de interfaz
+│       ├── profile.ts              Hero, About, stack, proceso, experiencia
+│       └── projects/               Un archivo por caso de estudio
 │
 ├── config/site.ts                  Nombre, enlaces, correo, navegación
-├── lib/                            Metadata, utils y Server Action
+├── lib/
+│   ├── i18n.ts                     Idiomas y rutas con prefijo
+│   ├── page-params.ts              Valida el idioma de la URL
+│   └── metadata.ts · utils.ts · actions/
 ├── types/                          Modelos de datos
-└── public/                         Imágenes, portadas y CV
+└── public/                         Imágenes, portadas y los dos CV
 ```
 
 ---
@@ -124,22 +139,27 @@ Copia `.env.example` a `.env.local` y completa lo que necesites. Todas son **opc
 
 ## Cómo editar el contenido
 
-Todo el texto del sitio vive en dos lugares. **No hace falta tocar los componentes.**
+Todo el texto del sitio vive en `content/`. **No hace falta tocar los componentes.**
+
+Cada cambio de texto se hace **dos veces**, una por idioma: `content/es/` y `content/en/`.
 
 | Quiero cambiar... | Archivo |
 |---|---|
-| Nombre, correo, GitHub, LinkedIn, enlaces del menú | `config/site.ts` |
-| Titular del Hero, About, stack, proceso, experiencia, educación | `content/profile.ts` |
-| Un caso de estudio | `content/projects/<proyecto>.ts` |
-| Agregar un proyecto nuevo | Crear el archivo y registrarlo en `content/projects/index.ts` |
+| Nombre, correo, GitHub, LinkedIn, rutas de los CV | `config/site.ts` |
+| Botones, títulos de sección, menú, mensajes del formulario | `content/<idioma>/ui.ts` |
+| Titular del Hero, About, stack, proceso, experiencia, educación | `content/<idioma>/profile.ts` |
+| Un caso de estudio | `content/<idioma>/projects/<proyecto>.ts` |
+| Agregar un proyecto nuevo | Crear el archivo en los dos idiomas y registrarlo en cada `projects/index.ts` |
+
+> El español es la referencia: `content/es/ui.ts` define la forma del diccionario y TypeScript marca error si al inglés le falta una clave. Una etiqueta no se puede quedar vacía sin que el build avise.
 
 <details>
 <summary><strong>Agregar un proyecto nuevo, paso a paso</strong></summary>
 
-1. Copia `content/projects/sgtt.ts` como `content/projects/mi-proyecto.ts`.
-2. Cambia `slug`, `title`, y el resto de campos. TypeScript avisa si falta alguno.
+1. Copia `content/es/projects/sgtt.ts` como `content/es/projects/mi-proyecto.ts`, y haz lo mismo dentro de `content/en/projects/`.
+2. Cambia `slug`, `title` y el resto de campos. TypeScript avisa si falta alguno. **El `slug` tiene que ser idéntico en los dos idiomas**: es lo que deja que el selector salte de `/es/projects/x` a `/en/projects/x` sin perder la página.
 3. Pon la portada en `public/projects/cover-mi-proyecto.png` y la captura en `shot-mi-proyecto.png`; apunta `cover` y `screenshot` a esas rutas.
-4. Regístralo en `content/projects/index.ts`:
+4. Regístralo en los dos `projects/index.ts`:
 
 ```ts
 import { miProyecto } from "./mi-proyecto";
@@ -155,21 +175,45 @@ export const projects: Project[] = [idInventory, tallerTonyLanding, sgtt, distri
 
 ---
 
+## Idiomas
+
+El sitio vive bajo `/es` y `/en`. Las dos versiones son el sitio completo: mismas páginas, mismos proyectos, mismas URLs salvo el prefijo.
+
+| Pieza | Qué hace |
+|---|---|
+| `proxy.ts` | Manda `/about` a `/es/about`. Los enlaces compartidos antes del bilingüe siguen funcionando, y si el navegador pide inglés se respeta en la primera visita |
+| `lib/i18n.ts` | Lista de idiomas, `localePath()` y `stripLocale()` |
+| `app/[locale]/layout.tsx` | `<html lang>`, `hreflang` y el Open Graph de cada idioma |
+| `lib/page-params.ts` | Valida el idioma de la URL: `/fr/about` termina en 404, no en una página a medias |
+| `components/layout/language-switcher.tsx` | El interruptor ES / EN del menú |
+
+Tres decisiones que vale la pena conocer antes de tocar esto:
+
+- **El selector es un enlace, no un botón.** Lleva a la misma página en el otro idioma, así que se puede abrir en otra pestaña, Google lo sigue y funciona sin JavaScript.
+- **Los slugs no se traducen.** `/es/projects/sgtt-sistema-gestion-taller` y `/en/projects/sgtt-sistema-gestion-taller` son la misma página en dos idiomas; por eso el selector nunca pierde dónde estabas.
+- **Las banderas son SVG, no emoji.** Windows no trae glifo para 🇸🇻 ni 🇺🇸 y los dibuja como las letras "SV" y "US". Viven en `components/ui/flags.tsx`.
+
+El formulario de contacto manda el idioma en un campo oculto: la Server Action corre en el servidor, no ve la URL, y los errores de validación tienen que volver en el idioma que se está leyendo.
+
+---
+
 ## El CV
 
-El CV en PDF se **genera desde código**, no se edita a mano. Así siempre coincide con lo que dice el portafolio.
+El CV en PDF se **genera desde código**, no se edita a mano. Así siempre coincide con lo que dice el portafolio. Hay uno por idioma y el botón del menú enlaza al que toca.
 
 ```bash
-npm run cv
+npm run cv          # los dos idiomas
+npm run cv -- en    # solo uno
 ```
 
 | Archivo | Qué contiene |
 |---|---|
-| `scripts/cv-data.js` | El contenido: perfil, experiencia, educación, habilidades, idiomas |
-| `scripts/generate-cv.js` | La maquetación (tipografía, márgenes, colores) |
-| `public/resume/CV-Bryan-Escobar.pdf` | El resultado, enlazado desde el botón "Descargar CV" |
+| `scripts/cv-data.js` | El contenido en los dos idiomas: perfil, experiencia, educación, habilidades |
+| `scripts/generate-cv.js` | La maquetación (tipografía, márgenes, colores), la misma para ambos |
+| `public/resume/CV-Bryan-Escobar.pdf` | El resultado en español |
+| `public/resume/CV-Bryan-Escobar-EN.pdf` | El resultado en inglés |
 
-**Para actualizarlo:** edita `scripts/cv-data.js`, ejecuta `npm run cv` y listo. Poniendo `telefono: null` se omite el teléfono del documento.
+**Para actualizarlo:** edita `scripts/cv-data.js`, ejecuta `npm run cv` y listo. Poniendo `telefono: null` se omite el teléfono del documento. Los datos de contacto se comparten entre los dos idiomas: se escriben una sola vez.
 
 Diseño pensado para leerse e imprimirse: una página, fondo blanco, texto seleccionable (lo leen los sistemas ATS de las empresas) y el mismo azul de acento del sitio.
 
@@ -196,10 +240,10 @@ Utilidades propias: `container-page`, `label-mono`, `surface-card`, `hero-glow`,
 
 ## SEO y accesibilidad
 
-- Metadata única por ruta con canonical, Open Graph y Twitter Card.
+- Metadata única por ruta e idioma, con canonical, `hreflang` (incluido `x-default`), Open Graph y Twitter Card.
 - Imágenes Open Graph generadas en build (`opengraph-image.tsx`), una general y una por proyecto.
 - JSON-LD: `Person`, `WebSite` y `CreativeWork` en cada caso de estudio.
-- `sitemap.xml` y `robots.txt` generados desde el contenido real.
+- `sitemap.xml` con las dos versiones de cada página y sus alternativas declaradas; `robots.txt` generado desde el contenido real.
 - HTML semántico, `H1` único por página, skip link, navegación completa por teclado y focus visible.
 - `prefers-reduced-motion` respetado en todas las animaciones.
 
@@ -288,6 +332,7 @@ El generador (Satori) exige que cada `div` con más de un hijo tenga `display: f
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.4.0 | Octubre 2026 | Sitio bilingüe ES / EN completo: rutas por idioma, selector con banderas, hreflang, sitemap de los dos idiomas y CV en inglés |
 | 1.3.0 | Octubre 2026 | Paisaje 8-bit del monte Fuji en el hero y base para el sitio bilingüe |
 | 1.2.0 | Octubre 2026 | Avatar 8-bit propio en hero, About y 404, con mini-juego en la página de error |
 | 1.1.0 | Septiembre 2026 | Cuatro casos de estudio (ID Inventory, Taller Tony, SGTT, Distribuidora Escobar), portadas de marca + capturas reales, Instagram, CV generado desde código y repositorio público |

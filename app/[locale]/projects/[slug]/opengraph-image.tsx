@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
-import { getProjectBySlug, projects } from "@/content/es/projects";
+import { getAllSlugs, getProjectBySlug } from "@/content";
+import { LOCALES } from "@/lib/i18n";
+import { resolveLocale, type SlugParams } from "@/lib/page-params";
 import { siteConfig } from "@/config/site";
 
 export const alt = "Case Study";
@@ -7,16 +9,17 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return LOCALES.flatMap((locale) =>
+    getAllSlugs().map((slug) => ({ locale, slug })),
+  );
 }
 
-export default async function ProjectOpenGraphImage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+const siteHost = siteConfig.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+
+export default async function ProjectOpenGraphImage({ params }: SlugParams) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const locale = await resolveLocale(params);
+  const project = getProjectBySlug(locale, slug);
 
   return new ImageResponse(
     (
@@ -74,7 +77,7 @@ export default async function ProjectOpenGraphImage({
           <div style={{ color: "#A1A1AA" }}>
             {`${siteConfig.name} · Software Development`}
           </div>
-          <div style={{ color: "#3B82F6" }}>bryanescobar.dev</div>
+          <div style={{ color: "#3B82F6" }}>{siteHost}</div>
         </div>
       </div>
     ),

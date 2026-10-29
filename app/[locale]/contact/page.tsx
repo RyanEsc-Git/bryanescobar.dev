@@ -5,59 +5,73 @@ import { Section } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { ContactForm } from "@/components/sections/contact-form";
 import { siteConfig } from "@/config/site";
+import { getUI } from "@/content";
 import { buildMetadata } from "@/lib/metadata";
+import {
+  resolveLocale,
+  resolvePage,
+  type LocaleParams,
+} from "@/lib/page-params";
 
-export const metadata = buildMetadata({
-  title: "Contacto",
-  description:
-    "Escríbeme para oportunidades profesionales, colaboraciones o proyectos de desarrollo de software y automatización.",
-  path: "/contact",
-});
+export async function generateMetadata({ params }: LocaleParams) {
+  const locale = await resolveLocale(params);
+  const ui = getUI(locale);
 
-const channels = [
-  {
-    icon: Mail,
-    label: "Correo",
-    value: siteConfig.email,
-    href: `mailto:${siteConfig.email}`,
-  },
-  {
-    icon: Linkedin,
-    label: "LinkedIn",
-    value: "Conectemos",
-    href: siteConfig.links.linkedin,
-  },
-  {
-    icon: Github,
-    label: "GitHub",
-    value: "Mi código",
-    href: siteConfig.links.github,
-  },
-  ...(siteConfig.links.instagram
-    ? [
-        {
-          icon: Instagram,
-          label: "Instagram",
-          value: "Sígueme",
-          href: siteConfig.links.instagram,
-        },
-      ]
-    : []),
-];
+  return buildMetadata({
+    title: ui.contact.metaTitle,
+    description: ui.contact.metaDescription,
+    path: "/contact",
+    locale,
+  });
+}
 
-export default function ContactPage() {
+export default async function ContactPage({ params }: LocaleParams) {
+  const { locale, ui } = await resolvePage(params);
+  const labels = ui.contact.channels;
+
+  const channels = [
+    {
+      icon: Mail,
+      label: labels.email,
+      value: siteConfig.email,
+      href: `mailto:${siteConfig.email}`,
+    },
+    {
+      icon: Linkedin,
+      label: labels.linkedin,
+      value: labels.linkedinValue,
+      href: siteConfig.links.linkedin,
+    },
+    {
+      icon: Github,
+      label: labels.github,
+      value: labels.githubValue,
+      href: siteConfig.links.github,
+    },
+    ...(siteConfig.links.instagram
+      ? [
+          {
+            icon: Instagram,
+            label: labels.instagram,
+            value: labels.instagramValue,
+            href: siteConfig.links.instagram,
+          },
+        ]
+      : []),
+  ];
+
   return (
     <>
       <PageHeader
-        eyebrow="Contacto"
-        title="¿Construimos algo?"
-        description="Cuéntame qué necesitas resolver. Respondo a oportunidades profesionales, colaboraciones y proyectos donde el software haga una diferencia concreta."
+        eyebrow={ui.contact.eyebrow}
+        title={ui.contact.title}
+        description={ui.contact.description}
       />
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1fr_0.55fr] lg:gap-20">
           <Reveal>
-            <ContactForm />
+            <ContactForm locale={locale} labels={ui.contact.form} />
           </Reveal>
 
           <Reveal delay={120}>
@@ -91,7 +105,7 @@ export default function ContactPage() {
                   <MapPin className="size-4 text-accent-light" aria-hidden />
                 </span>
                 <span>
-                  <span className="label-mono block">Ubicación</span>
+                  <span className="label-mono block">{labels.location}</span>
                   <span className="mt-1 block text-sm text-fg">
                     {siteConfig.location}
                   </span>
@@ -99,9 +113,7 @@ export default function ContactPage() {
               </div>
 
               <p className="mt-2 text-sm leading-relaxed text-subtle">
-                Suelo responder en menos de 24 horas. Si tu mensaje es sobre un
-                proyecto, incluir el problema que quieres resolver ayuda mucho a
-                darte una respuesta útil desde el primer correo.
+                {ui.contact.note}
               </p>
             </div>
           </Reveal>

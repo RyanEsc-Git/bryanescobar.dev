@@ -2,34 +2,42 @@
 
 import { z } from "zod";
 import { siteConfig } from "@/config/site";
+import { getUI } from "@/content";
+import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n";
 import type { ContactState } from "./contact-state";
 
-const contactSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, "Escribe tu nombre (mínimo 2 caracteres).")
-    .max(80, "El nombre es demasiado largo."),
-  email: z.email("Escribe un correo electrónico válido."),
-  subject: z
-    .string()
-    .trim()
-    .min(3, "Escribe un asunto breve.")
-    .max(120, "El asunto es demasiado largo."),
-  message: z
-    .string()
-    .trim()
-    .min(20, "Cuéntame un poco más: al menos 20 caracteres.")
-    .max(3000, "El mensaje es demasiado largo."),
-  // Campo trampa para bots. Debe llegar vacío.
-  website: z.string().max(0).optional(),
-});
+/**
+ * El idioma llega en un campo oculto del formulario: la acción corre en el
+ * servidor, sin acceso al segmento de la URL, y los mensajes de error tienen
+ * que volver en el idioma que está viendo la persona.
+ */
+function messagesFor(raw: FormDataEntryValue | null) {
+  const value = typeof raw === "string" && isLocale(raw) ? raw : DEFAULT_LOCALE;
+  return getUI(value).contact.form;
+}
+
+type Validation = ReturnType<typeof messagesFor>["validation"];
+
+function schemaFor(t: Validation) {
+  return z.object({
+    name: z.string().trim().min(2, t.name).max(80, t.nameLong),
+    email: z.email(t.email),
+    subject: z.string().trim().min(3, t.subject).max(120, t.subjectLong),
+    message: z.string().trim().min(20, t.message).max(3000, t.messageLong),
+    // Campo trampa para bots. Debe llegar vacío.
+    website: z.string().max(0).optional(),
+  });
+}
 
 export async function sendContactMessage(
   _prevState: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
-  const parsed = contactSchema.safeParse({
+  const form = messagesFor(formData.get("locale"));
+  const withEmail = (template: string) =>
+    template.replace("{email}", siteConfig.email);
+
+  const parsed = schemaFor(form.validation).safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     subject: formData.get("subject"),
@@ -52,7 +60,7 @@ export async function sendContactMessage(
     }
     return {
       status: "error",
-      message: "Revisa los campos marcados.",
+      message: form.validation.review,
       errors,
     };
   }
@@ -68,7 +76,7 @@ export async function sendContactMessage(
   if (!apiKey) {
     return {
       status: "error",
-      message: `El envío por formulario aún no está configurado. Escríbeme directamente a ${siteConfig.email}.`,
+      message: withEmail(form.status.notConfigured),
     };
   }
 
@@ -99,19 +107,19 @@ export async function sendContactMessage(
       console.error("Resend error:", response.status, detail);
       return {
         status: "error",
-        message: `No se pudo enviar el mensaje. Puedes escribirme a ${siteConfig.email}.`,
+        message: withEmail(form.status.failed),
       };
     }
 
     return {
       status: "success",
-      message: "Mensaje enviado. Te respondo lo antes posible.",
+      message: form.status.success,
     };
   } catch (error) {
     console.error("Contact form error:", error);
     return {
       status: "error",
-      message: `Ocurrió un error de red. Puedes escribirme a ${siteConfig.email}.`,
+      message: withEmail(form.status.network),
     };
   }
 }

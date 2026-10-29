@@ -17,7 +17,7 @@ export const tallerTonyLanding: Project = {
     "Portada de la landing page de Taller Tony con el hero a pantalla completa y el nombre del taller sobre una fila de vehículos",
   featured: true,
   order: 2,
-  status: "Finalizado",
+  status: "finished",
   links: {},
   metrics: [
     { label: "Hero", value: "240 fotogramas" },
