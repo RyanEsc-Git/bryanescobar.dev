@@ -2,49 +2,12 @@ import { ArrowRight, ArrowUpRight, FileText } from "lucide-react";
 import { Github, Linkedin } from "@/components/ui/icons";
 import { PixelAvatar } from "@/components/pixel/pixel-avatar";
 import { PixelFuji } from "@/components/pixel/pixel-fuji";
+import { CodeWindow } from "./code-window";
 import { ButtonLink } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 import { capabilities, resumeHref, siteConfig } from "@/config/site";
 import { localePath, type Locale } from "@/lib/i18n";
 import type { UIDictionary } from "@/content/es/ui";
-
-const codeLines = [
-  [
-    { t: "const", c: "text-accent-light" },
-    { t: " developer", c: "text-fg" },
-    { t: " = {", c: "text-muted" },
-  ],
-  [
-    { t: "  name: ", c: "text-muted" },
-    { t: '"Bryan Escobar"', c: "text-emerald-400" },
-    { t: ",", c: "text-muted" },
-  ],
-  [{ t: "  focus: [", c: "text-muted" }],
-  [
-    { t: '    "Software Development"', c: "text-emerald-400" },
-    { t: ",", c: "text-muted" },
-  ],
-  [
-    { t: '    "Web Applications"', c: "text-emerald-400" },
-    { t: ",", c: "text-muted" },
-  ],
-  [
-    { t: '    "Automation"', c: "text-emerald-400" },
-    { t: ",", c: "text-muted" },
-  ],
-  [{ t: '    "Systems"', c: "text-emerald-400" }],
-  [{ t: "  ],", c: "text-muted" }],
-  [
-    { t: "  location: ", c: "text-muted" },
-    { t: '"El Salvador"', c: "text-emerald-400" },
-    { t: ",", c: "text-muted" },
-  ],
-  [
-    { t: "  status: ", c: "text-muted" },
-    { t: '"Building..."', c: "text-emerald-400" },
-  ],
-  [{ t: "};", c: "text-muted" }],
-];
 
 type HeroContent = {
   eyebrow: string;
@@ -68,10 +31,24 @@ export function Hero({
           bottom-0 sobre la sección entera quedaba detrás de la franja de
           capacidades que va al final. */}
       <div className="relative overflow-hidden">
-        {/* El cielo del paisaje es transparente, así que se funde solo con el
-            fondo: no hace falta un degradado encima, que además tapaba la
-            montaña justo donde está la cima. */}
-        <PixelFuji className="pointer-events-none absolute inset-x-0 bottom-0 h-[64%] w-full opacity-[0.55]" />
+        {/* El paisaje va a lo ancho con la altura que le toque por su
+            proporción. Fijarle la altura en un porcentaje lo dejaba más
+            estrecho que el bloque y aparecían dos franjas negras a los
+            lados. El cielo es transparente, así que lo que sobra por arriba
+            se funde con el fondo. */}
+        {/* En móvil se agranda y se recorta por los lados: a lo ancho de la
+            pantalla el paisaje completo queda en una franja de 170 px y no se
+            ve nada. */}
+        <PixelFuji className="pointer-events-none absolute bottom-0 left-[-30%] h-auto w-[160%] opacity-50 lg:left-0 lg:w-full lg:opacity-60" />
+
+        {/* Velo para que el texto quede sobre fondo limpio sin esconder el
+            paisaje. Cambia de dirección con el diseño: en móvil el texto va
+            encima del paisaje, así que el velo baja de arriba abajo; a partir
+            de lg van en columnas y el velo va de izquierda a derecha. */}
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-transparent via-bg/65 to-bg lg:bg-gradient-to-r lg:from-bg lg:via-bg/55 lg:to-transparent"
+          aria-hidden
+        />
         <div
           className="pointer-events-none absolute inset-0 grid-lines opacity-[0.5]"
           aria-hidden
@@ -167,30 +144,7 @@ export function Hero({
                 className="absolute -top-20 right-6 z-10 drop-shadow-[0_12px_24px_rgba(0,0,0,0.55)]"
                 title={ui.about.avatarAlt}
               />
-              <div className="surface-card overflow-hidden shadow-2xl shadow-black/40">
-                <div className="flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-3">
-                  <span className="size-2.5 rounded-full bg-[#ff5f57]" />
-                  <span className="size-2.5 rounded-full bg-[#febc2e]" />
-                  <span className="size-2.5 rounded-full bg-[#28c840]" />
-                  <span className="ml-3 font-mono text-xs text-subtle">
-                    developer.ts
-                  </span>
-                </div>
-                <pre className="overflow-x-auto p-6 font-mono text-[13px] leading-relaxed">
-                  <code>
-                    {codeLines.map((line, index) => (
-                      <span key={index} className="block">
-                        {line.map((token, tokenIndex) => (
-                          <span key={tokenIndex} className={token.c}>
-                            {token.t}
-                          </span>
-                        ))}
-                        {line.length === 0 ? " " : null}
-                      </span>
-                    ))}
-                  </code>
-                </pre>
-              </div>
+              <CodeWindow labels={ui.hero.window} />
             </Reveal>
           </div>
         </div>

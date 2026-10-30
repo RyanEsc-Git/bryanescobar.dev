@@ -4,7 +4,7 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
-![Versión](https://img.shields.io/badge/versión-1.4.0-2563EB?style=flat)
+![Versión](https://img.shields.io/badge/versión-1.5.0-2563EB?style=flat)
 ![Idiomas](https://img.shields.io/badge/idiomas-ES%20·%20EN-2563EB?style=flat)
 ![Contenido](https://img.shields.io/badge/contenido-©%20Bryan%20Escobar-27272A?style=flat)
 
@@ -80,7 +80,7 @@ bryanescobar.dev/
 │
 ├── components/
 │   ├── layout/                     Navbar, Footer y selector de idioma
-│   ├── sections/                   Secciones de la Home
+│   ├── sections/                   Secciones de la Home y la ventana developer.ts
 │   ├── pixel/                      Avatar 8-bit, monte Fuji y 404 Runner
 │   ├── projects/                   Tarjetas y bloques de Case Study
 │   └── ui/                         Botones, reveal, iconos y banderas
@@ -332,6 +332,7 @@ El generador (Satori) exige que cada `div` con más de un hijo tenga `display: f
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.5.0 | Octubre 2026 | Paisaje del Fuji redibujado con paleta de atardecer, cerezos y bosque; la ventana developer.ts se puede minimizar, ampliar y cerrar |
 | 1.4.0 | Octubre 2026 | Sitio bilingüe ES / EN completo: rutas por idioma, selector con banderas, hreflang, sitemap de los dos idiomas y CV en inglés |
 | 1.3.0 | Octubre 2026 | Paisaje 8-bit del monte Fuji en el hero y base para el sitio bilingüe |
 | 1.2.0 | Octubre 2026 | Avatar 8-bit propio en hero, About y 404, con mini-juego en la página de error |

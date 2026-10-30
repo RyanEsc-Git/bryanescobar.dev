@@ -26,6 +26,14 @@ export const ui: UIDictionary = {
     viewProjects: "See my work",
     contactMe: "Get in touch",
     resume: "CV",
+    window: {
+      file: "developer.ts",
+      close: "Close the window",
+      minimize: "Minimise the window",
+      zoom: "Zoom the window",
+      restore: "Restore the window",
+      reopen: "Open developer.ts",
+    },
   },
 
   home: {

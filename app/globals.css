@@ -151,6 +151,47 @@
     }
   }
 
+  /* Estrellas: cada una lleva su propio retraso en línea, así el titileo no
+     va a compás y el cielo no late entero a la vez. */
+  .fuji-star {
+    animation: fuji-twinkle 4.5s ease-in-out infinite;
+  }
+
+  @keyframes fuji-twinkle {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    45% {
+      opacity: 0.25;
+    }
+  }
+
+  /* La estrella fugaz cruza una vez por ciclo y pasa el resto del tiempo
+     invisible: el tramo visible es el 6 % de los 22 segundos. */
+  .fuji-shooting {
+    opacity: 0;
+    animation: fuji-shoot 22s linear infinite;
+  }
+
+  @keyframes fuji-shoot {
+    0%,
+    94% {
+      opacity: 0;
+      transform: translate(150px, 4px);
+    }
+    94.5% {
+      opacity: 0.9;
+    }
+    99.5% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(96px, 30px);
+    }
+  }
+
   @keyframes pixel-float {
     0%,
     100% {
@@ -164,8 +205,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .pixel-float,
-  .fuji-clouds {
+  .fuji-clouds,
+  .fuji-star {
     animation: none;
+  }
+
+  /* La estrella fugaz no se frena: se quita, porque lo suyo es el movimiento. */
+  .fuji-shooting {
+    display: none;
   }
 }
 

@@ -24,6 +24,14 @@ export const ui = {
     viewProjects: "Ver mis proyectos",
     contactMe: "Contactarme",
     resume: "CV",
+    window: {
+      file: "developer.ts",
+      close: "Cerrar la ventana",
+      minimize: "Minimizar la ventana",
+      zoom: "Ampliar la ventana",
+      restore: "Restaurar la ventana",
+      reopen: "Abrir developer.ts",
+    },
   },
 
   home: {
