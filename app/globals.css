@@ -192,6 +192,46 @@
     }
   }
 
+  /* Cinta de capacidades. El desplazamiento es del 25 % porque el carril
+     lleva la lista cuatro veces: al moverse el ancho de una copia, la
+     siguiente ocupa su sitio exacto y el salto al origen no se ve. El
+     porcentaje y el número de copias del componente van juntos. */
+  .marquee {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .marquee-track {
+    animation: marquee 34s linear infinite;
+  }
+
+  /* Se detiene al pasar el cursor: si alguien quiere leer una capacidad
+     concreta, no tiene que perseguirla. */
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-25%);
+    }
+  }
+
   @keyframes pixel-float {
     0%,
     100% {
@@ -206,8 +246,33 @@
 @media (prefers-reduced-motion: reduce) {
   .pixel-float,
   .fuji-clouds,
-  .fuji-star {
+  .fuji-star,
+  .marquee-track {
     animation: none;
+  }
+
+  /* Parada la cinta, el degradado de los bordes recortaría la primera y la
+     última capacidad, así que se quita y la lista se reparte a lo ancho. */
+  .marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .marquee-track {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Las copias duplicadas solo existen para que el bucle encaje. */
+  .marquee-track > [aria-hidden="true"] {
+    display: none;
+  }
+
+  /* El punto separa una capacidad de la siguiente; detrás de la última, sin
+     nada que separar, queda colgando. */
+  .marquee-track li:last-child span[aria-hidden] {
+    display: none;
   }
 
   /* La estrella fugaz no se frena: se quita, porque lo suyo es el movimiento. */

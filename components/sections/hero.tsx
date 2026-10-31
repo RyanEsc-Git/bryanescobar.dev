@@ -150,13 +150,43 @@ export function Hero({
         </div>
       </div>
 
-      <div className="relative border-y border-border bg-surface/40">
-        <div className="container-page flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-5 sm:justify-between">
-          {capabilities.map((item) => (
-            <span key={item} className="label-mono">
-              {item}
-            </span>
-          ))}
+      {/* Cinta de capacidades.
+          La lista va cuatro veces y el carril se desplaza el 25 %, o sea el
+          ancho de una copia: al terminar, la escena es idéntica a la del
+          inicio y el salto al origen no se ve.
+
+          Cuatro y no dos porque con dos el carril medía menos que la
+          pantalla y, al desplazarse, quedaba un hueco por la derecha. Hacen
+          falta copias suficientes para que lo que queda por delante siga
+          cubriendo el ancho visible. Si se cambia el número hay que cambiar
+          el 25 % del keyframe marquee en globals.css.
+
+          Las copias de más llevan aria-hidden para que un lector de pantalla
+          no lea la lista cuatro veces. */}
+      <div className="relative overflow-hidden border-y border-border bg-surface/40">
+        <div className="marquee py-5">
+          <div className="marquee-track flex w-max items-center">
+            {[0, 1, 2, 3].map((copy) => (
+              <ul
+                key={copy}
+                className="flex shrink-0 items-center"
+                aria-hidden={copy > 0 || undefined}
+              >
+                {capabilities.map((item) => (
+                  <li
+                    key={item}
+                    className="flex shrink-0 items-center gap-6 px-6 sm:gap-10 sm:px-10"
+                  >
+                    <span className="label-mono whitespace-nowrap">{item}</span>
+                    <span
+                      className="size-1 shrink-0 rounded-full bg-border-strong"
+                      aria-hidden
+                    />
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
         </div>
       </div>
     </section>

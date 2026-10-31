@@ -332,7 +332,7 @@ El generador (Satori) exige que cada `div` con más de un hijo tenga `display: f
 
 | Versión | Fecha | Cambios |
 |---|---|---|
-| 1.5.0 | Octubre 2026 | Paisaje del Fuji redibujado con paleta de atardecer, cerezos y bosque; la ventana developer.ts se puede minimizar, ampliar y cerrar |
+| 1.5.0 | Octubre 2026 | Paisaje del Fuji redibujado con paleta de atardecer, cerezos y bosque; la ventana developer.ts se puede minimizar, ampliar y cerrar; cinta de capacidades en movimiento |
 | 1.4.0 | Octubre 2026 | Sitio bilingüe ES / EN completo: rutas por idioma, selector con banderas, hreflang, sitemap de los dos idiomas y CV en inglés |
 | 1.3.0 | Octubre 2026 | Paisaje 8-bit del monte Fuji en el hero y base para el sitio bilingüe |
 | 1.2.0 | Octubre 2026 | Avatar 8-bit propio en hero, About y 404, con mini-juego en la página de error |
