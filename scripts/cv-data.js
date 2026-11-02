@@ -15,8 +15,7 @@ const contacto = {
   email: "bryan79escobar@gmail.com",
   // Dejar en null para omitir el teléfono del CV.
   telefono: "+503 6428-9413",
-  // Mientras no esté comprado bryanescobar.dev, aquí va la URL que sí abre.
-  web: "bryanescobar-dev.vercel.app",
+  web: "bryanescobar.dev",
   github: "github.com/RyanEsc-Git",
   linkedin: "linkedin.com/in/bryan-escobar-6a275b179",
 };

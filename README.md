@@ -4,7 +4,7 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
-![Versión](https://img.shields.io/badge/versión-1.6.0-2563EB?style=flat)
+![Versión](https://img.shields.io/badge/versión-1.6.1-2563EB?style=flat)
 ![Idiomas](https://img.shields.io/badge/idiomas-ES%20·%20EN-2563EB?style=flat)
 ![Contenido](https://img.shields.io/badge/contenido-©%20Bryan%20Escobar-27272A?style=flat)
 
@@ -134,6 +134,33 @@ Copia `.env.example` a `.env.local` y completa lo que necesites. Todas son **opc
 | `RESEND_API_KEY` | Habilita el envío real del formulario |
 | `CONTACT_EMAIL_TO` | Correo donde llegan los mensajes |
 | `CONTACT_EMAIL_FROM` | Remitente que aparece en el correo |
+
+<details>
+<summary><strong>Dejar el formulario enviando de verdad</strong></summary>
+
+Resend **exige un dominio verificado** para enviar: no se puede mandar desde
+una dirección cualquiera. Como el dominio ya vive en Vercel, los registros se
+agregan ahí mismo.
+
+1. Cuenta en [resend.com](https://resend.com).
+2. **Domains → Add Domain → `bryanescobar.dev`**.
+3. Resend devuelve unos registros (un `MX` y dos o tres `TXT`). Se copian tal
+   cual en **Vercel → el proyecto → Domains → `bryanescobar.dev` → DNS
+   Records**. La verificación tarda unos minutos.
+4. **API Keys → Create API Key**, permiso de envío. Se copia una sola vez.
+5. En **Vercel → Settings → Environment Variables**, las tres variables para
+   *Production*.
+6. **Redeploy.** Las variables se leen al construir, así que sin un despliegue
+   nuevo el formulario sigue igual.
+
+No hace falta crear un buzón para `contacto@bryanescobar.dev`: esa dirección
+solo se usa para enviar. Las respuestas van al correo de quien escribió,
+porque la Server Action manda su dirección en `reply_to`.
+
+Si algo falla, el visitante ve un mensaje pidiéndole que escriba al correo
+directo y el motivo real queda en los logs del proyecto en Vercel.
+
+</details>
 
 ---
 
@@ -332,6 +359,7 @@ El generador (Satori) exige que cada `div` con más de un hijo tenga `display: f
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.6.1 | Noviembre 2026 | Dominio propio en el CV y pasos para dejar el formulario enviando con un dominio verificado |
 | 1.6.0 | Noviembre 2026 | Certificaciones y reconocimientos: tres cursos de Cisco Networking Academy y el 2.º lugar del Rally Latinoamericano de Innovación, en el sitio y en los dos CV |
 | 1.5.0 | Octubre 2026 | Paisaje del Fuji redibujado con paleta de atardecer, cerezos y bosque; la ventana developer.ts se puede minimizar, ampliar y cerrar; cinta de capacidades en movimiento |
 | 1.4.0 | Octubre 2026 | Sitio bilingüe ES / EN completo: rutas por idioma, selector con banderas, hreflang, sitemap de los dos idiomas y CV en inglés |
