@@ -4,7 +4,7 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
-![Versión](https://img.shields.io/badge/versión-1.5.0-2563EB?style=flat)
+![Versión](https://img.shields.io/badge/versión-1.6.0-2563EB?style=flat)
 ![Idiomas](https://img.shields.io/badge/idiomas-ES%20·%20EN-2563EB?style=flat)
 ![Contenido](https://img.shields.io/badge/contenido-©%20Bryan%20Escobar-27272A?style=flat)
 
@@ -147,7 +147,7 @@ Cada cambio de texto se hace **dos veces**, una por idioma: `content/es/` y `con
 |---|---|
 | Nombre, correo, GitHub, LinkedIn, rutas de los CV | `config/site.ts` |
 | Botones, títulos de sección, menú, mensajes del formulario | `content/<idioma>/ui.ts` |
-| Titular del Hero, About, stack, proceso, experiencia, educación | `content/<idioma>/profile.ts` |
+| Titular del Hero, About, stack, proceso, experiencia, educación, certificaciones | `content/<idioma>/profile.ts` |
 | Un caso de estudio | `content/<idioma>/projects/<proyecto>.ts` |
 | Agregar un proyecto nuevo | Crear el archivo en los dos idiomas y registrarlo en cada `projects/index.ts` |
 
@@ -208,7 +208,7 @@ npm run cv -- en    # solo uno
 
 | Archivo | Qué contiene |
 |---|---|
-| `scripts/cv-data.js` | El contenido en los dos idiomas: perfil, experiencia, educación, habilidades |
+| `scripts/cv-data.js` | El contenido en los dos idiomas: perfil, experiencia, educación, certificaciones, habilidades |
 | `scripts/generate-cv.js` | La maquetación (tipografía, márgenes, colores), la misma para ambos |
 | `public/resume/CV-Bryan-Escobar.pdf` | El resultado en español |
 | `public/resume/CV-Bryan-Escobar-EN.pdf` | El resultado en inglés |
@@ -332,6 +332,7 @@ El generador (Satori) exige que cada `div` con más de un hijo tenga `display: f
 
 | Versión | Fecha | Cambios |
 |---|---|---|
+| 1.6.0 | Noviembre 2026 | Certificaciones y reconocimientos: tres cursos de Cisco Networking Academy y el 2.º lugar del Rally Latinoamericano de Innovación, en el sitio y en los dos CV |
 | 1.5.0 | Octubre 2026 | Paisaje del Fuji redibujado con paleta de atardecer, cerezos y bosque; la ventana developer.ts se puede minimizar, ampliar y cerrar; cinta de capacidades en movimiento |
 | 1.4.0 | Octubre 2026 | Sitio bilingüe ES / EN completo: rutas por idioma, selector con banderas, hreflang, sitemap de los dos idiomas y CV en inglés |
 | 1.3.0 | Octubre 2026 | Paisaje 8-bit del monte Fuji en el hero y base para el sitio bilingüe |

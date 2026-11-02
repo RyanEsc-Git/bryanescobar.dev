@@ -1,4 +1,8 @@
-import type { EducationEntry, ExperienceEntry } from "@/types";
+import type {
+  CertificationEntry,
+  EducationEntry,
+  ExperienceEntry,
+} from "@/types";
 
 export const heroContent = {
   eyebrow: "El Salvador · Available for projects",
@@ -153,6 +157,42 @@ export const experience: ExperienceEntry[] = [
       "Technical documentation and user training",
     ],
     stack: ["JavaScript", "Node.js", "SQL", "Linux"],
+  },
+];
+
+/**
+ * Certifications and awards, most recent first.
+ * The data comes from the original PDFs kept in material/Certificados.
+ */
+export const certifications: CertificationEntry[] = [
+  {
+    period: "October 2026",
+    title: "2nd place — Social Impact category",
+    issuer: "Latin American Innovation Rally · Universidad Gerardo Barrios campus, San Miguel",
+    detail:
+      "Innovation marathon held simultaneously across 11 countries in the region on 16 and 17 October. Second place with the team Limit Not Found.",
+    award: true,
+  },
+  {
+    period: "June 2025",
+    title: "CCNA: Enterprise Networking, Security and Automation",
+    issuer: "Cisco Networking Academy · Universidad Gerardo Barrios",
+    detail:
+      "Dynamic routing, enterprise networks, network security and infrastructure automation.",
+  },
+  {
+    period: "May 2025",
+    title: "Network Devices and Initial Configuration",
+    issuer: "Cisco Networking Academy · Universidad Gerardo Barrios",
+    detail:
+      "Initial setup of switches and routers, addressing and connectivity troubleshooting.",
+  },
+  {
+    period: "August 2024",
+    title: "CCNAv7: Introduction to Networks",
+    issuer: "Cisco Networking Academy",
+    detail:
+      "Networking fundamentals: the OSI model, protocols, IPv4/IPv6 addressing and the link layer.",
   },
 ];
 

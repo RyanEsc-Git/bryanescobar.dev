@@ -48,7 +48,7 @@ function buildCv(cv) {
 
   /** Título de sección con línea inferior. */
   function sectionTitle(text) {
-    doc.moveDown(0.9);
+    doc.moveDown(0.72);
     const y = doc.y;
     doc
       .font("Helvetica-Bold")
@@ -61,7 +61,7 @@ function buildCv(cv) {
       .lineWidth(0.6)
       .strokeColor(RULE)
       .stroke();
-    doc.moveDown(0.65);
+    doc.moveDown(0.5);
   }
 
   /** Viñeta con sangría francesa. */
@@ -77,7 +77,7 @@ function buildCv(cv) {
         align: "left",
         lineGap: 1.2,
       });
-    doc.moveDown(0.18);
+    doc.moveDown(0.12);
   }
 
   // -------------------------------------------------------------- Encabezado
@@ -128,7 +128,7 @@ function buildCv(cv) {
   sectionTitle(S.experiencia);
 
   cv.experiencia.forEach((job, index) => {
-    if (index > 0) doc.moveDown(0.55);
+    if (index > 0) doc.moveDown(0.42);
 
     const y = doc.y;
     doc
@@ -192,6 +192,42 @@ function buildCv(cv) {
     }
 
     doc.font("Helvetica").fontSize(8.8).fillColor(BODY).text(edu.institucion, MARGIN);
+  });
+
+  // ------------------------------------------------------ Certificaciones
+  // Una linea por certificacion, con la fecha alineada a la derecha: son
+  // respaldo del perfil, no el cuerpo del CV, y no deben robarle sitio a la
+  // experiencia.
+  sectionTitle(S.certificaciones);
+
+  cv.certificaciones.forEach((cert, index) => {
+    if (index > 0) doc.moveDown(0.22);
+    const y = doc.y;
+
+    // Titulo y emisor seguidos en la misma linea: en dos lineas, las cuatro
+    // certificaciones empujaban el CV a una segunda pagina.
+    doc
+      .font("Helvetica-Bold")
+      .fontSize(8.8)
+      .fillColor(INK)
+      .text(`${cert.titulo}  `, MARGIN, y, {
+        width: CONTENT_W - 62,
+        continued: true,
+      })
+      .font("Helvetica")
+      .fillColor(MUTED)
+      .text(`· ${cert.emisor}`);
+
+    doc
+      .font("Helvetica")
+      .fontSize(8.4)
+      .fillColor(MUTED)
+      .text(cert.fecha, PAGE_W - MARGIN - 62, y + 0.5, {
+        width: 62,
+        align: "right",
+      });
+
+    doc.y = Math.max(doc.y, y + 10);
   });
 
   // ------------------------------------------------------------ Habilidades

@@ -54,6 +54,15 @@ export type ExperienceEntry = {
   stack: string[];
 };
 
+export type CertificationEntry = {
+  period: string;
+  title: string;
+  issuer: string;
+  detail?: string;
+  /** Un premio, no un curso: cambia el icono con el que se muestra. */
+  award?: boolean;
+};
+
 export type EducationEntry = {
   period: string;
   institution: string;

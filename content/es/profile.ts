@@ -1,4 +1,8 @@
-import type { EducationEntry, ExperienceEntry } from "@/types";
+import type {
+  CertificationEntry,
+  EducationEntry,
+  ExperienceEntry,
+} from "@/types";
 
 export const heroContent = {
   eyebrow: "El Salvador · Disponible para proyectos",
@@ -162,6 +166,42 @@ export const experience: ExperienceEntry[] = [
       "Documentación técnica y capacitación de usuarios",
     ],
     stack: ["JavaScript", "Node.js", "SQL", "Linux"],
+  },
+];
+
+/**
+ * Certificaciones y reconocimientos, del más reciente al más antiguo.
+ * Los datos salen de los PDF originales que están en material/Certificados.
+ */
+export const certifications: CertificationEntry[] = [
+  {
+    period: "Octubre 2026",
+    title: "2.º lugar — categoría Impacto Social",
+    issuer: "Rally Latinoamericano de Innovación · Sede Universidad Gerardo Barrios, San Miguel",
+    detail:
+      "Maratón de innovación celebrada de forma simultánea en 11 países de la región los días 16 y 17 de octubre. Segundo lugar con el equipo Limit Not Found.",
+    award: true,
+  },
+  {
+    period: "Junio 2025",
+    title: "CCNA: Redes Empresariales, Seguridad y Automatización",
+    issuer: "Cisco Networking Academy · Universidad Gerardo Barrios",
+    detail:
+      "Enrutamiento dinámico, redes empresariales, seguridad de red y automatización de infraestructura.",
+  },
+  {
+    period: "Mayo 2025",
+    title: "Dispositivos de Red y Configuración Inicial",
+    issuer: "Cisco Networking Academy · Universidad Gerardo Barrios",
+    detail:
+      "Configuración inicial de switches y routers, direccionamiento y diagnóstico de conectividad.",
+  },
+  {
+    period: "Agosto 2024",
+    title: "CCNAv7: Introduction to Networks",
+    issuer: "Cisco Networking Academy",
+    detail:
+      "Fundamentos de redes: modelo OSI, protocolos, direccionamiento IPv4/IPv6 y capa de enlace.",
   },
 ];
 

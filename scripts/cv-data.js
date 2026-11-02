@@ -37,6 +37,7 @@ const es = {
     perfil: "Perfil profesional",
     experiencia: "Experiencia y proyectos",
     educacion: "Educación",
+    certificaciones: "Certificaciones y reconocimientos",
     habilidades: "Habilidades técnicas",
     idiomas: "Idiomas",
     stack: "Stack:  ",
@@ -96,6 +97,29 @@ const es = {
     },
   ],
 
+  certificaciones: [
+    {
+      titulo: "2.º lugar — categoría Impacto Social",
+      emisor: "Rally Latinoamericano de Innovación · equipo Limit Not Found",
+      fecha: "Oct 2026",
+    },
+    {
+      titulo: "CCNA: Redes Empresariales, Seguridad y Automatización",
+      emisor: "Cisco Networking Academy",
+      fecha: "Jun 2025",
+    },
+    {
+      titulo: "Dispositivos de Red y Configuración Inicial",
+      emisor: "Cisco Networking Academy",
+      fecha: "May 2025",
+    },
+    {
+      titulo: "CCNAv7: Introduction to Networks",
+      emisor: "Cisco Networking Academy",
+      fecha: "Ago 2024",
+    },
+  ],
+
   habilidades: [
     {
       area: "Frontend",
@@ -131,6 +155,7 @@ const en = {
     perfil: "Professional profile",
     experiencia: "Experience and projects",
     educacion: "Education",
+    certificaciones: "Certifications and awards",
     habilidades: "Technical skills",
     idiomas: "Languages",
     stack: "Stack:  ",
@@ -187,6 +212,29 @@ const en = {
       institucion: "Instituto Capitán de Navío DEM César Yanes Urías",
       titulo: "Technical Baccalaureate in Electronics and Electricity",
       detalle: "",
+    },
+  ],
+
+  certificaciones: [
+    {
+      titulo: "2nd place — Social Impact category",
+      emisor: "Latin American Innovation Rally · team Limit Not Found",
+      fecha: "Oct 2026",
+    },
+    {
+      titulo: "CCNA: Enterprise Networking, Security and Automation",
+      emisor: "Cisco Networking Academy",
+      fecha: "Jun 2025",
+    },
+    {
+      titulo: "Network Devices and Initial Configuration",
+      emisor: "Cisco Networking Academy",
+      fecha: "May 2025",
+    },
+    {
+      titulo: "CCNAv7: Introduction to Networks",
+      emisor: "Cisco Networking Academy",
+      fecha: "Aug 2024",
     },
   ],
 

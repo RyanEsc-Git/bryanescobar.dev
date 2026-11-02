@@ -153,7 +153,11 @@ export const ui: UIDictionary = {
       "A walk through what I have built, with the context, the responsibilities and the technologies behind each stage.",
     education: {
       eyebrow: "Education",
-      title: "Education and certifications",
+      title: "Academic background",
+    },
+    certifications: {
+      eyebrow: "Certifications",
+      title: "Certifications and awards",
     },
     metaTitle: "Experience",
     metaDescription:

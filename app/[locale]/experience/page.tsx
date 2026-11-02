@@ -1,4 +1,4 @@
-import { GraduationCap } from "lucide-react";
+import { Award, BadgeCheck, GraduationCap } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: LocaleParams) {
 
 export default async function ExperiencePage({ params }: LocaleParams) {
   const { locale, ui, profile } = await resolvePage(params);
-  const { education, experience } = profile;
+  const { certifications, education, experience } = profile;
 
   return (
     <>
@@ -90,6 +90,47 @@ export default async function ExperiencePage({ params }: LocaleParams) {
       </Section>
 
       <Section className="border-t border-border bg-surface/30">
+        <SectionHeader
+          eyebrow={ui.experience.certifications.eyebrow}
+          title={ui.experience.certifications.title}
+        />
+        <ul className="flex flex-col gap-5">
+          {certifications.map((item, index) => {
+            // Un premio no es un curso aprobado: se distingue con otro icono.
+            const Icon = item.award ? Award : BadgeCheck;
+            return (
+              <Reveal key={item.title} delay={index * 70} as="li">
+                <article className="surface-card flex flex-col gap-4 p-7 sm:flex-row sm:items-start sm:gap-7">
+                  <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-surface-2">
+                    <Icon
+                      className={
+                        item.award
+                          ? "size-5 text-amber-400"
+                          : "size-5 text-accent-light"
+                      }
+                      aria-hidden
+                    />
+                  </span>
+                  <div>
+                    <p className="label-mono">{item.period}</p>
+                    <h3 className="mt-2 text-lg font-semibold tracking-tight">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted">{item.issuer}</p>
+                    {item.detail ? (
+                      <p className="mt-3 text-sm leading-relaxed text-subtle">
+                        {item.detail}
+                      </p>
+                    ) : null}
+                  </div>
+                </article>
+              </Reveal>
+            );
+          })}
+        </ul>
+      </Section>
+
+      <Section>
         <SectionHeader
           eyebrow={ui.experience.education.eyebrow}
           title={ui.experience.education.title}

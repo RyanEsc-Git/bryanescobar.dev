@@ -151,7 +151,11 @@ export const ui = {
       "Un recorrido por lo que he construido, con el contexto, las responsabilidades y las tecnologías de cada etapa.",
     education: {
       eyebrow: "Educación",
-      title: "Formación y certificaciones",
+      title: "Formación académica",
+    },
+    certifications: {
+      eyebrow: "Certificaciones",
+      title: "Certificaciones y reconocimientos",
     },
     metaTitle: "Experiencia",
     metaDescription:
