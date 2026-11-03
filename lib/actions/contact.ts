@@ -104,7 +104,12 @@ export async function sendContactMessage(
 
     if (!response.ok) {
       const detail = await response.text();
-      console.error("Resend error:", response.status, detail);
+      // Se registra el remitente usado: cuando Resend rechaza un envío, nueve
+      // de cada diez veces es porque "from" no pertenece a un dominio
+      // verificado, y sin este dato hay que adivinarlo.
+      console.error(
+        `Resend rechazó el envío (${response.status}). from="${from}" to="${to}" detalle=${detail}`,
+      );
       return {
         status: "error",
         message: withEmail(form.status.failed),
